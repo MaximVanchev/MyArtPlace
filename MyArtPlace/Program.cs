@@ -1,20 +1,34 @@
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using MyArtPlace.Data;
 using MyArtPlace.Areas.Identity.Data;
+using MyArtPlace.Core.Constants;
+using MyArtPlace.Data;
+using MyArtPlace.ModelBinders;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-builder.Services.AddDbContext<MyArtPlaceContext>(options =>
-    options.UseSqlServer(connectionString));builder.Services.AddDbContext<MyArtPlaceContext>(options =>
-    options.UseSqlServer(connectionString));
-builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+builder.Services.AddApplicationDbContexts(builder.Configuration);
 
-builder.Services.AddDefaultIdentity<MyArtPlaceUser>(options => options.SignIn.RequireConfirmedAccount = true)
+builder.Services.AddDefaultIdentity<MyArtPlaceUser>(options =>
+{
+    options.SignIn.RequireConfirmedAccount = true;
+    options.Password.RequireNonAlphanumeric = false;
+})
     .AddEntityFrameworkStores<MyArtPlaceContext>();
-builder.Services.AddControllersWithViews();
+
+builder.Services.AddAuthentication()
+    .AddFacebook(options =>
+    {
+        options.AppId = builder.Configuration.GetValue<string>("Facebook:AppId");
+        options.AppSecret = builder.Configuration.GetValue<string>("Facebook:AppSecret");
+    });
+
+builder.Services.AddControllersWithViews()
+    .AddMvcOptions(options =>
+    {
+        options.ModelBinderProviders.Insert(0, new DecimalModelBinderProvider());
+        options.ModelBinderProviders.Insert(1, new DoubleModelBinderProvider());
+        options.ModelBinderProviders.Insert(2, new DateTimeModelBinderProvider(FormatingConstants.NormalDateFormat));
+    });
 
 var app = builder.Build();
 
