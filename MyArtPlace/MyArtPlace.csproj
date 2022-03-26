@@ -25,8 +25,4 @@
     <ProjectReference Include="..\MyArtPlace.Core\MyArtPlace.Core.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Areas\Identity\Data\" />
-  </ItemGroup>
-
 </Project>
