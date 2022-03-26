@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using MyArtPlace.Infrastructure.Data;
 using MyArtPlace.Data;
+using MyArtPlace.Areas.Identity.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,7 +12,7 @@ builder.Services.AddDbContext<MyArtPlaceContext>(options =>
     options.UseSqlServer(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+builder.Services.AddDefaultIdentity<MyArtPlaceUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<MyArtPlaceContext>();
 builder.Services.AddControllersWithViews();
 

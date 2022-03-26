@@ -1,0 +1,35 @@
+﻿.logo-image {
+    width: 200px;
+    height: auto;
+}
+
+.logo-image {
+    width: 230px;
+    height: auto;
+}
+
+div.content-wrapper {
+    margin-left: 0px;
+}
+
+#render-body {
+    margin-left: 0px;
+}
+
+div.container-fluid {
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+#leyout-logo {
+    height: 70px;
+    width: 100%;
+}
+
+.navbar {
+    left: 0px;
+}
+
+.main-panel {
+    min-height: 100vh;
+}

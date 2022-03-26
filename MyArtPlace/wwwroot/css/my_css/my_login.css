@@ -1,0 +1,30 @@
+﻿body {
+}
+
+div.content-wrapper {
+    background-image: url('../../images/auth/myartplace-one-bg.jpg');
+    margin: 0;
+}
+
+div.form-group label {
+    font-size: 1rem;
+    line-height: 1;
+    vertical-align: top;
+}
+
+div.sign-up.text-center {
+    margin-top: 28px;
+    margin-bottom: 0px;
+}
+
+#check {
+    margin-bottom: 0px;
+}
+
+#check-square {
+    margin-top: 1px;
+}
+
+.text-center {
+    margin-bottom: 28px;
+}

@@ -1,0 +1,31 @@
+﻿body {
+}
+
+div.content-wrapper {
+    background-image: url('../../images/auth/myartplace-one-bg.jpg');
+    margin: 0;
+}
+
+.text-center {
+    margin-bottom: 28px;
+    margin-top: 15px;
+}
+
+.terms {
+    text-align:center;
+}
+
+.form-control {
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.form-group label {
+    font-size: 1rem;
+    line-height: 1;
+    vertical-align: top;
+}
+
+.form-group.d-flex.align-items-center.justify-content-between {
+    margin-bottom: 5px;
+}

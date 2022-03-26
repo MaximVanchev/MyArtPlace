@@ -6,26 +6,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>@ViewData["Title"]</title>
     <!-- plugins:css -->
-    <link rel="stylesheet" href="~/vendors/mdi/css/materialdesignicons.min.css">
-    <link rel="stylesheet" href="~/vendors/css/vendor.bundle.base.css">
+    <link rel="stylesheet" href="~/corona_bootstrap/vendors/mdi/css/materialdesignicons.min.css">
+    <link rel="stylesheet" href="~/corona_bootstrap/vendors/css/vendor.bundle.base.css">
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <!-- endinject -->
     <!-- Plugin css for this page -->
-    <link rel="stylesheet" href="~/vendors/jvectormap/jquery-jvectormap.css">
-    <link rel="stylesheet" href="~/vendors/flag-icon-css/css/flag-icon.min.css">
-    <link rel="stylesheet" href="~/vendors/owl-carousel-2/owl.carousel.min.css">
-    <link rel="stylesheet" href="~/vendors/owl-carousel-2/owl.theme.default.min.css">
-    <link rel="stylesheet" href="~/plugins/fontawesome-free/css/all.min.css">
-    <link rel="stylesheet" href="~/plugins/toastr/toastr.min.css" />
-    <link rel="stylesheet" href="~/css/adminlte.min.css">
+    <link rel="stylesheet" href="~/corona_bootstrap/vendors/jvectormap/jquery-jvectormap.css">
+    <link rel="stylesheet" href="~/corona_bootstrap/vendors/flag-icon-css/css/flag-icon.min.css">
+    <link rel="stylesheet" href="~/corona_bootstrap/vendors/owl-carousel-2/owl.carousel.min.css">
+    <link rel="stylesheet" href="~/corona_bootstrap/vendors/owl-carousel-2/owl.theme.default.min.css">
+    <link rel="stylesheet" href="~/corona_bootstrap/plugins/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="~/corona_bootstrap/plugins/toastr/toastr.min.css" />
+    @*<link rel="stylesheet" href="~/css/adminlte.min.css">*@
     <!-- End plugin css for this page -->
     <!-- inject:css -->
     <!-- endinject -->
     <!-- Layout styles -->
-    <link rel="stylesheet" href="~/css/style.css">
+    <link rel="stylesheet" href="~/corona_bootstrap/css/style.css">
     <link rel="stylesheet" href="~/css/my_css/layout.css" />
     <!-- End layout styles -->
-    <link rel="shortcut icon" href="~/images/MyArtPlace_Circle_Logo.png" />
+    <link rel="shortcut icon" href="~/corona_bootstrap/images/MyArtPlace_Circle_Logo.png" />
     
     @await RenderSectionAsync("Head" , false)
   </head>
@@ -39,7 +39,7 @@
           <div class="navbar-menu-wrapper flex-grow d-flex align-items-stretch">
             @*Navbar Buttons*@
             <div class="navbar-nav navbar-nav-left" >
-              <a href="/"><img src="~/images/MyArtPlace_Logo.png" alt="logo" id="leyout-logo"/></a>
+              <a href="/"><img src="~/corona_bootstrap/images/MyArtPlace_Logo.png" alt="logo" id="leyout-logo"/></a>
             </div>
             <ul class="navbar-nav navbar-nav-right">
               <partial name="_LoginPartial" />
@@ -66,31 +66,26 @@
     </div>
     <!-- container-scroller -->
     <!-- plugins:js -->
-    <script src="~/vendors/js/vendor.bundle.base.js"></script>
+    <script src="~/corona_bootstrap/vendors/js/vendor.bundle.base.js"></script>
     <!-- endinject -->
     <!-- Plugin js for this page -->
-    <script src="~/vendors/chart.js/Chart.min.js"></script>
-    <script src="~/vendors/progressbar.js/progressbar.min.js"></script>
-    <script src="~/vendors/jvectormap/jquery-jvectormap.min.js"></script>
-    <script src="~/vendors/jvectormap/jquery-jvectormap-world-mill-en.js"></script>
-    <script src="~/vendors/owl-carousel-2/owl.carousel.min.js"></script>
+    <script src="~/corona_bootstrap/vendors/chart.js/Chart.min.js"></script>
+    <script src="~/corona_bootstrap/vendors/progressbar.js/progressbar.min.js"></script>
+    <script src="~/corona_bootstrap/vendors/jvectormap/jquery-jvectormap.min.js"></script>
+    <script src="~/corona_bootstrap/vendors/jvectormap/jquery-jvectormap-world-mill-en.js"></script>
+    <script src="~/corona_bootstrap/vendors/owl-carousel-2/owl.carousel.min.js"></script>
     <!-- End plugin js for this page -->
     <!-- inject:js -->
-    <script src="~/js/off-canvas.js"></script>
-    <script src="~/js/hoverable-collapse.js"></script>
-    <script src="~/js/misc.js"></script>
-    <script src="~/js/settings.js"></script>
-    <script src="~/js/todolist.js"></script>
+    <script src="~/corona_bootstrap/js/off-canvas.js"></script>
+    <script src="~/corona_bootstrap/js/hoverable-collapse.js"></script>
+    <script src="~/corona_bootstrap/js/misc.js"></script>
+    <script src="~/corona_bootstrap/js/settings.js"></script>
+    <script src="~/corona_bootstrap/js/todolist.js"></script>
     <!-- endinject -->
     <!-- Custom js for this page -->
-    <script src="~/js/dashboard.js"></script>
+    <script src="~/corona_bootstrap/js/dashboard.js"></script>
     <!-- End custom js for this page -->
-
-    <!-- jQuery -->
-    <script src="~/plugins/jquery/jquery.min.js"></script>
-    <!-- Bootstrap 4 -->
-    <!-- AdminLTE App -->
-    <script src="~/plugins/toastr/toastr.min.js"></script>
+    <script src="~/corona_bootstrap/plugins/toastr/toastr.min.js"></script>
     <partial name="_UserMessages" />
     @await RenderSectionAsync("Scripts" , false)
   </body>
