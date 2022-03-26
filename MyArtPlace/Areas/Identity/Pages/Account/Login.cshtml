@@ -2,84 +2,111 @@
 @model LoginModel
 
 @{
-    ViewData["Title"] = "Log in";
+    ViewData["Title"] = "Login";
+    Layout = null;
 }
 
-<h1>@ViewData["Title"]</h1>
-<div class="row">
-    <div class="col-md-4">
-        <section>
-            <form id="account" method="post">
-                <h2>Use a local account to log in.</h2>
-                <hr />
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <div class="form-floating">
-                    <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" />
-                    <label asp-for="Input.Email" class="form-label"></label>
-                    <span asp-validation-for="Input.Email" class="text-danger"></span>
-                </div>
-                <div class="form-floating">
-                    <input asp-for="Input.Password" class="form-control" autocomplete="current-password" aria-required="true" />
-                    <label asp-for="Input.Password" class="form-label"></label>
-                    <span asp-validation-for="Input.Password" class="text-danger"></span>
-                </div>
-                <div>
-                    <div class="checkbox">
-                        <label asp-for="Input.RememberMe" class="form-label">
-                            <input class="form-check-input" asp-for="Input.RememberMe" />
-                            @Html.DisplayNameFor(m => m.Input.RememberMe)
-                        </label>
-                    </div>
-                </div>
-                <div>
-                    <button id="login-submit" type="submit" class="w-100 btn btn-lg btn-primary">Log in</button>
-                </div>
-                <div>
-                    <p>
-                        <a id="forgot-password" asp-page="./ForgotPassword">Forgot your password?</a>
-                    </p>
-                    <p>
-                        <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Register as a new user</a>
-                    </p>
-                    <p>
-                        <a id="resend-confirmation" asp-page="./ResendEmailConfirmation">Resend email confirmation</a>
-                    </p>
-                </div>
-            </form>
-        </section>
-    </div>
-    <div class="col-md-6 col-md-offset-2">
-        <section>
-            <h3>Use another service to log in.</h3>
-            <hr />
-            @{
-                if ((Model.ExternalLogins?.Count ?? 0) == 0)
-                {
-                    <div>
-                        <p>
-                            There are no external authentication services configured. See this <a href="https://go.microsoft.com/fwlink/?LinkID=532715">article
-                            about setting up this ASP.NET application to support logging in via external services</a>.
-                        </p>
-                    </div>
-                }
-                else
-                {
-                    <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
-                        <div>
-                            <p>
-                                @foreach (var provider in Model.ExternalLogins)
-                                {
-                                    <button type="submit" class="btn btn-primary" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
-                                }
-                            </p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>@ViewData["Title"]</title>
+    <!-- plugins:css -->
+    <link rel="stylesheet" href="~/corona_bootstrap/vendors/mdi/css/materialdesignicons.min.css">
+    <link rel="stylesheet" href="~/corona_bootstrap/vendors/css/vendor.bundle.base.css">
+    <!-- endinject -->
+    <!-- Plugin css for this page -->
+    <link rel="stylesheet" href="~/css/my_css/my_login.css" />
+    <!-- End plugin css for this page -->
+    <!-- inject:css -->
+    <!-- endinject -->
+    <!-- Layout styles -->
+    <link rel="stylesheet" href="~/corona_bootstrap/css/style.css">
+    <!-- End layout styles -->
+    <link rel="shortcut icon" href="~/corona_bootstrap/images/MyArtPlace_Circle_Logo.png" />
+</head>
+<body>
+    <div class="container-scroller">
+        <div class="container-fluid page-body-wrapper full-page-wrapper">
+            <div class="row w-100 m-0">
+                <div class="content-wrapper full-page-wrapper d-flex align-items-center">
+                    <div class="card col-lg-4 mx-auto">
+                        <div class="card-body px-5 py-5">
+                            <h3 class="card-title text-left mb-3">Login</h3>
+                            <form id="account" method="post">
+                                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                <div class="form-group">
+                                    <label asp-for="Input.Email" class="form-label"></label>
+                                    <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" />
+                                    <span asp-validation-for="Input.Email" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="Input.Password" class="form-label"></label>
+                                    <input asp-for="Input.Password" class="form-control" autocomplete="current-password" aria-required="true" />
+                                    <span asp-validation-for="Input.Password" class="text-danger"></span>
+                                </div>
+                                <div class="form-group d-flex align-items-center justify-content-between">
+                                    <div class="form-check">
+
+                                        <label asp-for="Input.RememberMe" class="form-label" id=check>
+                                            <input class="form-check-input" asp-for="Input.RememberMe" id=check-square />
+                                            @Html.DisplayNameFor(m => m.Input.RememberMe)
+                                        </label>
+                                    </div>
+                                    <a id="forgot-password" asp-page="./ForgotPassword">Forgot your password?</a>
+                                </div>
+                                <div class="text-center">
+                                    <button id="login-submit" type="submit" class="btn btn-primary btn-block enter-btn">Log in</button>
+                                </div>
+                                <div class="d-flex">
+                                    @{
+                                        if ((Model.ExternalLogins?.Count ?? 0) != 0)
+                                        {
+                                            <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
+                                                <div>
+                                                    <p>
+                                                        @foreach (var provider in Model.ExternalLogins)
+                                                        {
+                                                            <button type="submit" class="btn btn-facebook mr-2 col" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account"><i class="mdi mdi-facebook"></i>@provider.DisplayName</button>
+                                                        }
+                                                    </p>
+                                                </div>
+                                            </form>
+                                        }
+                                    }
+                                    @*<button class="btn btn-facebook mr-2 col">
+                                        <i class="mdi mdi-facebook"></i> Facebook
+                                    </button>
+                                    <button class="btn btn-google col">
+                                        <i class="mdi mdi-google-plus"></i> Google plus
+                                    </button>*@
+                                </div>
+                                <div class="sign-up text-center">Don't have an Account?<a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl"> Register</a></div>
+                            </form>
                         </div>
-                    </form>
-                }
-            }
-        </section>
+                    </div>
+                </div>
+                <!-- content-wrapper ends -->
+            </div>
+            <!-- row ends -->
+        </div>
+        <!-- page-body-wrapper ends -->
     </div>
-</div>
-
-@section Scripts {
+    <!-- container-scroller -->
+    <!-- plugins:js -->
+    <script src="~/corona_bootstrap/vendors/js/vendor.bundle.base.js"></script>
+    <!-- endinject -->
+    <!-- Plugin js for this page -->
+    <!-- End plugin js for this page -->
+    <!-- inject:js -->
+    <script src="~/corona_bootstrap/js/off-canvas.js"></script>
+    <script src="~/corona_bootstrap/js/hoverable-collapse.js"></script>
+    <script src="~/corona_bootstrap/js/misc.js"></script>
+    <script src="~/corona_bootstrap/js/settings.js"></script>
+    <script src="~/corona_bootstrap/js/todolist.js"></script>
     <partial name="_ValidationScriptsPartial" />
-}
+    <!-- endinject -->
+</body>
+</html>
