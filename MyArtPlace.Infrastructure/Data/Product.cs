@@ -21,6 +21,8 @@ namespace MyArtPlace.Infrastructure.Data
         [StringLength(DatabaseConstants.Description_Max_Length)]
         public string? Description { get; set; }
 
+        public byte[]? Image { get; set; }
+
         [Required]
         [StringLength(DatabaseConstants.Guid_Max_Length)]
         public Guid ShopId { get; set; }

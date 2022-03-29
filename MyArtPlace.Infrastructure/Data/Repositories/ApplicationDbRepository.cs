@@ -3,9 +3,9 @@ using MyArtPlace.Infrastructure.Data.Common;
 
 namespace MyArtPlace.Infrastructure.Data.Repositories
 {
-    public class ApplicatioDbRepository : Repository, IApplicatioDbRepository
+    public class ApplicationDbRepository : Repository, IApplicationDbRepository
     {
-        public ApplicatioDbRepository(MyArtPlaceContext context)
+        public ApplicationDbRepository(MyArtPlaceContext context)
         {
             this.Context = context;
         }

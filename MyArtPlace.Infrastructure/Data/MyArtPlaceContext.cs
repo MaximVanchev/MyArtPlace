@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using MyArtPlace.Areas.Identity.Data;
+using MyArtPlace.Infrastructure.Data;
 
 namespace MyArtPlace.Data;
 
@@ -19,4 +20,13 @@ public class MyArtPlaceContext : IdentityDbContext<MyArtPlaceUser>
         // For example, you can rename the ASP.NET Identity table names and more.
         // Add your customizations after calling base.OnModelCreating(builder);
     }
+
+    public DbSet<Shop> Shops { get; set; }
+
+    public DbSet<Product> Products { get; set; }
+
+    public DbSet<Currency> Currencies { get; set; }
+
+    public DbSet<Category> Categories { get; set; }
+
 }

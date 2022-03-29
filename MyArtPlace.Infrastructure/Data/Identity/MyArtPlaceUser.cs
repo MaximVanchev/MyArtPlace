@@ -13,10 +13,19 @@ namespace MyArtPlace.Areas.Identity.Data;
 // Add profile data for application users by adding properties to the MyArtPlaceUser class
 public class MyArtPlaceUser : IdentityUser
 {
+    public MyArtPlaceUser()
+    {
+        LikedProducts = new List<Product>();
+    }
+
     [StringLength(DatabaseConstants.Guid_Max_Length)]
     public Guid? ShopId { get; set; }
 
     [ForeignKey(nameof(ShopId))]
     public Shop? Shop { get; set; }
+
+    public byte[]? ProfilePicture { get; set; }
+
+    public IList<Product> LikedProducts { get; set; }
 }
 

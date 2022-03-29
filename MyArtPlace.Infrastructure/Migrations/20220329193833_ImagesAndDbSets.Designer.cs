@@ -3,17 +3,19 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MyArtPlace.Data;
 
 #nullable disable
 
-namespace MyArtPlace.Infrastructure.Migrations
+namespace MyArtPlace.Migrations
 {
     [DbContext(typeof(MyArtPlaceContext))]
-    partial class MyArtPlaceContextModelSnapshot : ModelSnapshot
+    [Migration("20220329193833_ImagesAndDbSets")]
+    partial class ImagesAndDbSets
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -248,7 +250,7 @@ namespace MyArtPlace.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Categories", (string)null);
+                    b.ToTable("Categories");
                 });
 
             modelBuilder.Entity("MyArtPlace.Infrastructure.Data.Currency", b =>
@@ -264,7 +266,7 @@ namespace MyArtPlace.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Currencies", (string)null);
+                    b.ToTable("Currencies");
                 });
 
             modelBuilder.Entity("MyArtPlace.Infrastructure.Data.Product", b =>
@@ -299,7 +301,7 @@ namespace MyArtPlace.Infrastructure.Migrations
 
                     b.HasIndex("ShopId");
 
-                    b.ToTable("Products", (string)null);
+                    b.ToTable("Products");
                 });
 
             modelBuilder.Entity("MyArtPlace.Infrastructure.Data.Shop", b =>
@@ -329,7 +331,7 @@ namespace MyArtPlace.Infrastructure.Migrations
 
                     b.HasIndex("CurrencyId");
 
-                    b.ToTable("Shops", (string)null);
+                    b.ToTable("Shops");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

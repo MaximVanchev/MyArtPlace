@@ -2,7 +2,7 @@
 
 namespace MyArtPlace.Infrastructure.Data.Repositories
 {
-    public interface IApplicatioDbRepository : IRepository
+    public interface IApplicationDbRepository : IRepository
     {
     }
 }
