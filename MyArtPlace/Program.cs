@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Identity;
 using MyArtPlace.Areas.Identity.Data;
 using MyArtPlace.Core.Constants;
 using MyArtPlace.Data;
@@ -13,6 +14,7 @@ builder.Services.AddDefaultIdentity<MyArtPlaceUser>(options =>
     options.SignIn.RequireConfirmedAccount = true;
     options.Password.RequireNonAlphanumeric = false;
 })
+    .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<MyArtPlaceContext>();
 
 builder.Services.AddAuthentication()
@@ -29,6 +31,8 @@ builder.Services.AddControllersWithViews()
         options.ModelBinderProviders.Insert(1, new DoubleModelBinderProvider());
         options.ModelBinderProviders.Insert(2, new DateTimeModelBinderProvider(FormatingConstants.NormalDateFormat));
     });
+
+builder.Services.AddApplicationServices();
 
 var app = builder.Build();
 
