@@ -4,16 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MyArtPlace.Core.Models.User
+namespace MyArtPlace.Core.Models.Admin
 {
-    public class ProfileEditViewModel
+    public class UserRolesViewModel
     {
         public string Id { get; set; }
 
         public string Username { get; set; }
 
-        public string Email { get; set; }
-
-        public byte[]? ProfilePicture { get; set; }
+        public string[] RoleNames { get; set; }
     }
 }

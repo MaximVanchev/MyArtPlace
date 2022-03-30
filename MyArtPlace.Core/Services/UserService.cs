@@ -1,4 +1,5 @@
-﻿using MyArtPlace.Areas.Identity.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using MyArtPlace.Areas.Identity.Data;
 using MyArtPlace.Core.Contracts;
 using MyArtPlace.Core.Models.User;
 using MyArtPlace.Infrastructure.Data.Repositories;
@@ -12,9 +13,9 @@ namespace MyArtPlace.Core.Services
 {
     public class UserService : IUserService
     {
-        private readonly ApplicationDbRepository repo;
+        private readonly IApplicationDbRepository repo;
 
-        public UserService(ApplicationDbRepository _repo)
+        public UserService(IApplicationDbRepository _repo)
         {
             repo = _repo;
         }
@@ -24,14 +25,32 @@ namespace MyArtPlace.Core.Services
             return await repo.GetByIdAsync<MyArtPlaceUser>(id);
         }
 
-        public Task<ProfileEditViewModel> GetUserForEdit(string id)
+        public async Task<MyArtPlaceUser?> GetUserByUsername(string username)
         {
-            throw new NotImplementedException();
+            return await repo.All<MyArtPlaceUser>().FirstOrDefaultAsync(u => u.UserName == username);
         }
 
-        public IQueryable<MyArtPlaceUser> GetUsers()
+        public async Task<ProfileEditViewModel> GetUserForEdit(string id)
         {
-            return repo.All<MyArtPlaceUser>();
+            var user = await repo.GetByIdAsync<MyArtPlaceUser>(id);
+
+            return new ProfileEditViewModel
+            {
+                Id = id,
+                Username = user.UserName,
+                Email = user.Email,
+                ProfilePicture = user.ProfilePicture
+            };
+        }
+
+        public async Task<IEnumerable<UserListViewModel>> GetUsers()
+        {
+            return await repo.All<MyArtPlaceUser>().Select(u => new UserListViewModel
+            {
+                Username = u.UserName,
+                Email = u.Email,
+                Id = u.Id
+            }).ToListAsync();
         }
     }
 }

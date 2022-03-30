@@ -12,8 +12,9 @@ namespace MyArtPlace.Core.Contracts
     {
         Task<MyArtPlaceUser> GetUserById(string id);
 
-        IQueryable<MyArtPlaceUser> GetUsers();
+        Task<IEnumerable<UserListViewModel>> GetUsers();
 
         Task<ProfileEditViewModel> GetUserForEdit(string id);
+        Task<MyArtPlaceUser> GetUserByUsername(string username);
     }
 }

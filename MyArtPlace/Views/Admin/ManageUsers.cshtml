@@ -1,0 +1,51 @@
+﻿@using MyArtPlace.Core.Models.User
+@model IEnumerable<UserListViewModel>
+
+@{
+
+}
+
+
+
+<div class="row">
+    <div class="col-12">
+        @*<div class="card">
+            <div class="card-tools" style="width: 100%;">
+                <div class="input-group input-group-sm">
+                    <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
+                    <div class="input-group-append">
+                        <a asp-action="search" asp-controller="admin" asp-route-id="input" class="btn btn-block btn-outline-warning btn-xs">
+                            <i class="fas fa-search"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>*@
+        <div class="card-body">
+            <h4 class="card-title">    MyArtPlace Users</h4>
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>User</th>
+                            <th>Email</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var user in Model)
+                        {
+                            <tr>
+                                <td>@user.Username</td>
+                                <td>@user.Email</td>
+                                <td>
+                                    <a asp-action="roles" asp-controller="admin" asp-route-id="@user.Id" class="btn btn-block btn-outline-warning btn-xs">Roles</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

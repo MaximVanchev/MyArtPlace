@@ -11,11 +11,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Models\Admin\" />
     <Folder Include="Models\Category\" />
     <Folder Include="Models\Currency\" />
     <Folder Include="Models\Shop\" />
     <Folder Include="Models\Product\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.2" />
   </ItemGroup>
 
 </Project>
