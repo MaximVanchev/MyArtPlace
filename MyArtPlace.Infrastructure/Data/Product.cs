@@ -1,4 +1,5 @@
-﻿using MyArtPlace.Infrastructure.Data.Constants;
+﻿using MyArtPlace.Areas.Identity.Data;
+using MyArtPlace.Infrastructure.Data.Constants;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -22,6 +23,8 @@ namespace MyArtPlace.Infrastructure.Data
         public string? Description { get; set; }
 
         public byte[]? Image { get; set; }
+
+        public IList<MyArtPlaceUser> UsersLiked { get; set; }
 
         [Required]
         [StringLength(DatabaseConstants.Guid_Max_Length)]
