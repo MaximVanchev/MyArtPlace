@@ -1,4 +1,5 @@
-﻿using MyArtPlace.Core.Models.Admin;
+﻿using MyArtPlace.Core.Contracts;
+using MyArtPlace.Core.Models.Admin;
 using Microsoft.EntityFrameworkCore;
 using MyArtPlace.Infrastructure.Data;
 using MyArtPlace.Infrastructure.Data.Repositories;
@@ -7,29 +8,28 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MyArtPlace.Core.Contracts;
 
 namespace MyArtPlace.Core.Services
 {
-    public class CategoryService : ICategoryService
+    public class CurrencyService : ICurrencyService
     {
         private readonly IApplicationDbRepository repo;
 
-        public CategoryService(IApplicationDbRepository _repo)
+        public CurrencyService(IApplicationDbRepository _repo)
         {
             repo = _repo;
         }
 
-        public async Task<bool> AddCategory(AddCategoryViewModel model)
+        public async Task<bool> AddCurrency(AddCurrencyViewModel model)
         {
-            Category category = new Category()
+            Currency currency = new Currency()
             {
-                Name = model.Name
+                Iso = model.Iso
             };
 
             try
             {
-                await repo.AddAsync(category);
+                await repo.AddAsync(currency);
                 await repo.SaveChangesAsync();
                 return true;
             }
@@ -39,21 +39,21 @@ namespace MyArtPlace.Core.Services
             }
         }
 
-        public async Task<IEnumerable<CategoryListViewModel>> AllCategories()
+        public async Task<IEnumerable<CurrencyListViewModel>> AllCurrencies()
         {
-            return await repo.All<Category>()
-            .Select(x => new CategoryListViewModel
+            return await repo.All<Currency>()
+            .Select(x => new CurrencyListViewModel
             {
                 Id = x.Id,
-                Name = x.Name
+                Iso = x.Iso
             }).ToListAsync();
         }
 
-        public async Task<bool> DeleteCategoryById(Guid id)
+        public async Task<bool> DeleteCurrencyById(Guid id)
         {
             try
             {
-                await repo.DeleteAsync<Category>(id);
+                await repo.DeleteAsync<Currency>(id);
                 await repo.SaveChangesAsync();
                 return true;
             }
@@ -63,9 +63,9 @@ namespace MyArtPlace.Core.Services
             }
         }
 
-        public async Task<Category> GetCategoryById(Guid id)
+        public async Task<Currency> GetCurrencyById(Guid id)
         {
-            return await repo.GetByIdAsync<Category>(id);
+            return await repo.GetByIdAsync<Currency>(id);
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using MyArtPlace.Infrastructure.Data;
+﻿using MyArtPlace.Core.Models.Admin;
+using MyArtPlace.Infrastructure.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,12 @@ namespace MyArtPlace.Core.Contracts
 {
     public interface ICategoryService
     {
-        IQueryable<Category> AllCategories();
+        Task<bool> DeleteCategoryById(Guid id);
+
+        Task<Category> GetCategoryById(Guid id);
+
+        Task<IEnumerable<CategoryListViewModel>> AllCategories();
+
+        Task<bool> AddCategory(AddCategoryViewModel model);
     }
 }

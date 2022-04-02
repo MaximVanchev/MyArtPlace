@@ -1,0 +1,41 @@
+﻿@using MyArtPlace.Core.Models.Admin
+@model IEnumerable<CategoryListViewModel>
+
+@{
+
+}
+
+
+
+<div class="row">
+    <div class="col-12">
+        <div class="card-body">
+            <h4 class="card-title">MyArtPlace Categories</h4>
+            <a class="btn btn-success create-new-button" style="margin-left:100px;" asp-action="Add" asp-controller="Category">Add Category</a>
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var category in Model)
+                        {
+                            <tr>
+                                <td>@category.Name</td>
+                                @using (Html.BeginForm("Delete", "Category", FormMethod.Post))
+                                {
+                                    <td>
+                                        <button type="submit" asp-action="delete" asp-controller="category" asp-method="post" asp-route-id="@category.Id" class="btn btn-danger btn-fw">Delete</button>
+                                    </td>
+                                }
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

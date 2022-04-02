@@ -1,0 +1,42 @@
+﻿@using MyArtPlace.Core.Models.Admin
+@model IEnumerable<CurrencyListViewModel>
+
+@{
+
+}
+
+
+
+<div class="row">
+    <div class="col-12">
+        <div class="card-body">
+            <h4 class="card-title">MyArtPlace Categories</h4>
+            <a class="btn btn-success create-new-button" style="margin-left:100px;" asp-action="Add" asp-controller="Currency">Add Currency</a>
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Iso</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var currency in Model)
+                        {
+                            <tr>
+                                <td>@currency.Iso</td>
+                                @using (Html.BeginForm("Delete", "Currency", FormMethod.Post))
+                                {
+                                    <td>
+                                        <button type="submit" asp-action="delete" asp-controller="currency" asp-method="post" asp-route-id="@currency.Id" class="btn btn-danger btn-fw">Delete</button>
+                                    </td>
+                                }
+
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
