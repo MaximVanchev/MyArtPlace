@@ -12,6 +12,12 @@ namespace MyArtPlace.Infrastructure.Data
 {
     public class Product
     {
+        public Product()
+        {
+            UsersLiked = new List<MyArtPlaceUser>();
+            UsersCarts = new List<UsersCart>();
+        }
+
         [Key]
         public Guid Id { get; set; } = Guid.NewGuid();
 
@@ -25,6 +31,8 @@ namespace MyArtPlace.Infrastructure.Data
         public byte[]? Image { get; set; }
 
         public IList<MyArtPlaceUser> UsersLiked { get; set; }
+
+        public IList<UsersCart> UsersCarts { get; set; }
 
         [Required]
         [StringLength(DatabaseConstants.Guid_Max_Length)]

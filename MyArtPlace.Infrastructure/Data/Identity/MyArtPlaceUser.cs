@@ -16,6 +16,7 @@ public class MyArtPlaceUser : IdentityUser
     public MyArtPlaceUser()
     {
         LikedProducts = new List<Product>();
+        CartProducts = new List<UsersCart>();
     }
 
     [StringLength(DatabaseConstants.Guid_Max_Length)]
@@ -24,8 +25,11 @@ public class MyArtPlaceUser : IdentityUser
     [ForeignKey(nameof(ShopId))]
     public Shop? Shop { get; set; }
 
-    public byte[]? ProfilePicture { get; set; }
+    [StringLength(500)]
+    public string? ProfilePicture { get; set; }
 
     public IList<Product> LikedProducts { get; set; }
+
+    public IList<UsersCart> CartProducts { get; set; }
 }
 
