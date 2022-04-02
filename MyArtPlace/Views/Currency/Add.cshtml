@@ -14,6 +14,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>@ViewData["Title"]</title>
     <!-- plugins:css -->
+    <link rel="stylesheet" href="~/corona_bootstrap/plugins/toastr/toastr.min.css" />
+    <link rel="stylesheet" href="~/corona_bootstrap/vendors/jvectormap/jquery-jvectormap.css">
     <link rel="stylesheet" href="~/corona_bootstrap/vendors/mdi/css/materialdesignicons.min.css">
     <link rel="stylesheet" href="~/corona_bootstrap/vendors/css/vendor.bundle.base.css">
     <!-- endinject -->
@@ -67,6 +69,9 @@
     <script src="~/corona_bootstrap/js/misc.js"></script>
     <script src="~/corona_bootstrap/js/settings.js"></script>
     <script src="~/corona_bootstrap/js/todolist.js"></script>
+    <script src="~/corona_bootstrap/plugins/jquery/jquery.min.js"></script>
+    <script src="~/corona_bootstrap/plugins/toastr/toastr.min.js"></script>
+    <partial name="_UserMessages"/>
     <partial name="_ValidationScriptsPartial" />
     <!-- endinject -->
 </body>

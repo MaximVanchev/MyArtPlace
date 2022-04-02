@@ -48,7 +48,7 @@ namespace MyArtPlace.Controllers
                 ViewData[MessageConstants.ErrorMessage] = "There was an error!";
             }
 
-            return RedirectToAction(nameof(ManageCategories));
+            return RedirectToAction(nameof(ManageCategories) , ViewData);
         }
 
         [HttpPost]
@@ -64,7 +64,7 @@ namespace MyArtPlace.Controllers
                 ViewData[MessageConstants.ErrorMessage] = "There was an error!";
             }
 
-            return RedirectToAction(nameof(ManageCategories));
+            return RedirectToAction(nameof(ManageCategories), ViewData);
         }
     }
 }
