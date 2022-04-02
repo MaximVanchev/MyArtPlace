@@ -15,6 +15,9 @@ namespace MyArtPlace.Core.Contracts
         Task<IEnumerable<UserListViewModel>> GetUsers();
 
         Task<ProfileEditViewModel> GetUserForEdit(string id);
+
         Task<MyArtPlaceUser> GetUserByUsername(string username);
+    
+        Task EditUser(ProfileEditViewModel model);
     }
 }

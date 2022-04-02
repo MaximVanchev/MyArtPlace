@@ -11,13 +11,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Models\Category\" />
-    <Folder Include="Models\Currency\" />
     <Folder Include="Models\Shop\" />
     <Folder Include="Models\Product\" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Http" Version="2.2.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.2" />
   </ItemGroup>
 
