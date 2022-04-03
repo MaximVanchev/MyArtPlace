@@ -25,7 +25,7 @@ public class MyArtPlaceUser : IdentityUser
     [ForeignKey(nameof(ShopId))]
     public Shop? Shop { get; set; }
 
-    [StringLength(500)]
+    [StringLength(DatabaseConstants.ProfilePicture_Max_Length)]
     public string? ProfilePicture { get; set; }
 
     public IList<Product> LikedProducts { get; set; }

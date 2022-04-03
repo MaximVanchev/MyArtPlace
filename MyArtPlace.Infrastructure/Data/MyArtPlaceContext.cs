@@ -16,8 +16,6 @@ public class MyArtPlaceContext : IdentityDbContext<MyArtPlaceUser>
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
-
-        builder.Entity<UsersCart>().HasKey(x => new { x.UserId, x.ProductId });
     }
 
     public DbSet<UsersCart> UsersCarts { get; set; }

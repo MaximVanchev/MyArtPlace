@@ -16,5 +16,9 @@ namespace MyArtPlace.Infrastructure.Data.Constants
         public const int Name_Min_Length = 5;
         public const int Description_Max_Length = 200;
         public const int Location_Max_Length = 100;
+        public const int ProfilePicture_Max_Length = 500;
+        public const int Username_Max_Length = 50;
+        public const int Products_Count_Max_Length = 10;
+        public const int Products_Count_Min_Length = 1;
     }
 }

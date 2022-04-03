@@ -1,4 +1,5 @@
 ﻿using MyArtPlace.Areas.Identity.Data;
+using MyArtPlace.Infrastructure.Data.Constants;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -11,6 +12,15 @@ namespace MyArtPlace.Infrastructure.Data
 {
     public class UsersCart
     {
+        public UsersCart()
+        {
+            OrderId = Guid.NewGuid();
+            InCart = true;
+        }
+
+        [Key]
+        public Guid OrderId { get; set; }
+
         [Required]
         public string UserId { get; set; }
 
@@ -24,7 +34,10 @@ namespace MyArtPlace.Infrastructure.Data
         public Product Product { get; set; }
 
         [Required]
-        [Range(1,10)]
+        [Range(DatabaseConstants.Products_Count_Min_Length, DatabaseConstants.Products_Count_Max_Length)]
         public int ProductConut { get; set; }
+
+        [Required]
+        public bool InCart { get; set; }
     }
 }
