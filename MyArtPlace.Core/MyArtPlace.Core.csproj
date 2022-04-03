@@ -11,7 +11,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Models\Shop\" />
     <Folder Include="Models\Product\" />
   </ItemGroup>
 
