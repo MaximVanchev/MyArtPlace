@@ -27,7 +27,6 @@ namespace MyArtPlace.Core.Models.Shop
         public string? Location { get; set; }
 
         [Required]
-        [StringLength(DatabaseConstants.Currency_Iso_Length, MinimumLength = DatabaseConstants.Currency_Iso_Length)]
         public string Currency { get; set; }
 
         public IEnumerable<Currency> AllCurrencies { get; set; }

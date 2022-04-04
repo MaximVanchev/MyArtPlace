@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using MyArtPlace.Areas.Identity.Data;
+using MyArtPlace.Infrastructure.Data.Constants;
 
 namespace MyArtPlace.Areas.Identity.Pages.Account
 {
@@ -66,7 +67,7 @@ namespace MyArtPlace.Areas.Identity.Pages.Account
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
             [Required]
-            [StringLength(50)]
+            [StringLength(DatabaseConstants.Username_Max_Length)]
             public string Username { get; set; }
 
             /// <summary>

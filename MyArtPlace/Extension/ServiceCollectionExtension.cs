@@ -16,7 +16,9 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddScoped<IApplicationDbRepository, ApplicationDbRepository>();
             services.AddScoped<ICategoryService, CategoryService>();
             services.AddScoped<ICurrencyService, CurrencyService>();
+            services.AddScoped<IShopService, ShopService>();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IProductService, ProductService>();
 
             return services;
         }

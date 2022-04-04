@@ -37,7 +37,7 @@
                 <div class="content-wrapper full-page-wrapper d-flex align-items-center">
                     <div class="card col-lg-4 mx-auto">
                         <div class="card-body px-5 py-5">
-                            <form id="add" method="post">
+                            <form id="add" asp-controller="Shop" method="post">
                                 <h3 class="card-title text-left mb-3">@ViewData["Title"]</h3>
                                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                                 <div class="form-group">
@@ -50,9 +50,9 @@
                                     <input asp-for="Description" class="form-control" aria-required="true" />
                                     <span asp-validation-for="Description" class="text-danger"></span>
                                 </div>
-                                <div class="form-group">
-                                    <label asp-for="Currency"></label></>
-                                    <select asp-for="Currency" id="currency" class="btn btn-info dropdown-toggle" type="button"
+                                <div class="form-group" >
+                                    <label asp-for="Currency" id="currency-lable"></label>
+                                    <select asp-for="Currency" id="currency" style="width:100%;" class="btn btn-info dropdown-toggle"  type="button"
                                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                             @foreach (var currency in Model.AllCurrencies)
                                             {

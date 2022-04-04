@@ -3,11 +3,12 @@ using Microsoft.AspNetCore.Mvc;
 using MyArtPlace.Core.Constants;
 using MyArtPlace.Core.Contracts;
 using MyArtPlace.Core.Models.Admin;
+using MyArtPlace.Core.Models.Common;
 
 namespace MyArtPlace.Controllers
 {
     [Authorize(Roles = "Admin")]
-    public class CurrencyController : Controller
+    public class CurrencyController : BaseController
     {
         private readonly ICurrencyService currencyService;
 
@@ -18,6 +19,8 @@ namespace MyArtPlace.Controllers
 
         public async Task<IActionResult> ManageCurrencies()
         {
+            await CheckMessages();
+
             var currencies = await currencyService.AllCurrencies();
 
             return View(currencies);
@@ -26,6 +29,8 @@ namespace MyArtPlace.Controllers
         public async Task<IActionResult> Add()
         {
             var category = new AddCurrencyViewModel();
+
+            await CheckMessages();
 
             return View(category);
         }
@@ -40,11 +45,11 @@ namespace MyArtPlace.Controllers
 
             if (await currencyService.AddCurrency(model))
             {
-                ViewData[MessageConstants.SuccessMessage] = "Successful added category!";
+                MessageViewModel.Message.Add(MessageConstants.SuccessMessage, "Successful added currency!");
             }
             else
             {
-                ViewData[MessageConstants.ErrorMessage] = "There was an error!";
+                MessageViewModel.Message.Add(MessageConstants.ErrorMessage, "There was an error!");
             }
 
             return RedirectToAction(nameof(ManageCurrencies));
@@ -55,11 +60,11 @@ namespace MyArtPlace.Controllers
         {
             if (await currencyService.DeleteCurrencyById(id))
             {
-                ViewData[MessageConstants.SuccessMessage] = "Succsessful deleted currency!";
+                MessageViewModel.Message.Add(MessageConstants.SuccessMessage, "Successful deleted currency!");
             }
             else
             {
-                ViewData[MessageConstants.ErrorMessage] = "There was an error!";
+                MessageViewModel.Message.Add(MessageConstants.ErrorMessage, "There was an error!");
             }
 
             return RedirectToAction(nameof(ManageCurrencies));

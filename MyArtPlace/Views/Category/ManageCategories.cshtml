@@ -2,7 +2,7 @@
 @model IEnumerable<CategoryListViewModel>
 
 @{
-
+    ViewData["Title"] = "MyArtPlace Categories";
 }
 
 
@@ -10,7 +10,7 @@
 <div class="row">
     <div class="col-12">
         <div class="card-body">
-            <h4 class="card-title">MyArtPlace Categories</h4>
+            <h4 class="card-title">@ViewData["Title"]</h4>
             <a class="btn btn-success create-new-button" style="margin-left:100px;" asp-action="Add" asp-controller="Category">Add Category</a>
             <div class="table-responsive">
                 <table class="table">

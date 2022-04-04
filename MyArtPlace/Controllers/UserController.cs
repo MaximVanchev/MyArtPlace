@@ -4,15 +4,15 @@ using Microsoft.AspNetCore.Mvc;
 using MyArtPlace.Areas.Identity.Data;
 using MyArtPlace.Core.Constants;
 using MyArtPlace.Core.Contracts;
+using MyArtPlace.Core.Models.Common;
 using MyArtPlace.Core.Models.User;
 using System.Security.Claims;
 
 namespace MyArtPlace.Controllers
 {
     [Authorize]
-    public class UserController : Controller
+    public class UserController : BaseController
     {
-        private readonly SignInManager<MyArtPlaceUser> signInManager;
         private readonly IUserService userService;
 
         public UserController(IUserService _userService)
@@ -22,9 +22,19 @@ namespace MyArtPlace.Controllers
 
         public async Task<IActionResult> Settings()
         {
-            var user = await userService.GetUserForEdit(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            try
+            {
+                await CheckMessages();
 
-            return View(user);
+                var user = await userService.GetUserForEdit(User.FindFirstValue(ClaimTypes.NameIdentifier));
+
+                return View(user);
+            }
+            catch (Exception)
+            {
+                MessageViewModel.Message.Add(MessageConstants.ErrorMessage, "There was an error!");
+                return View();
+            }
         }
 
         [HttpPost]
@@ -38,15 +48,15 @@ namespace MyArtPlace.Controllers
             try
             {
                 await userService.EditUser(model);
-                ViewData[MessageConstants.SuccessMessage] = "Successful saved changes!";
+                MessageViewModel.Message.Add(MessageConstants.SuccessMessage, "Successful saved changes!");
             }
             catch (ArgumentException aex)
             {
-                ViewData[MessageConstants.ErrorMessage] = aex.Message;
+                MessageViewModel.Message.Add(MessageConstants.ErrorMessage, aex.Message);
             }
             catch (Exception)
             {
-                ViewData[MessageConstants.ErrorMessage] = "There was an error!";
+                MessageViewModel.Message.Add(MessageConstants.ErrorMessage, "There was an error!");
             }
 
             return Redirect("/");

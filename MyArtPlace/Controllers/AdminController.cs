@@ -3,14 +3,16 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using MyArtPlace.Areas.Identity.Data;
+using MyArtPlace.Core.Constants;
 using MyArtPlace.Core.Contracts;
 using MyArtPlace.Core.Models.Admin;
+using MyArtPlace.Core.Models.Common;
 using MyArtPlace.Core.Services;
 
 namespace MyArtPlace.Controllers
 {
     [Authorize(Roles = "Admin")]
-    public class AdminController : Controller
+    public class AdminController : BaseController
     {
         private readonly RoleManager<IdentityRole> roleManager;
         private readonly UserManager<MyArtPlaceUser> userManager;
@@ -23,18 +25,35 @@ namespace MyArtPlace.Controllers
             userService = _userService;
         }
 
-        //public async Task<IActionResult> CreateRole()
-        //{
-        //    await roleManager.CreateAsync(new IdentityRole
-        //    {
-        //        Name = "Admin"
-        //    });
+        public async Task<IActionResult> CreateRole()
+        {
+            await CheckMessages();
 
-        //    return Ok();
-        //}
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateRole(CreateRoleViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            await roleManager.CreateAsync(new IdentityRole
+            {
+                Name = model.Name
+            });
+
+            MessageViewModel.Message.Add(MessageConstants.SuccessMessage, "Successful created role!");
+
+            return Redirect("/");
+        }
 
         public async Task<IActionResult> ManageUsers()
         {
+            await CheckMessages();
+
             var users = await userService.GetUsers();
 
             return View(users);
@@ -42,6 +61,8 @@ namespace MyArtPlace.Controllers
 
         public async Task<IActionResult> Roles(string id)
         {
+            await CheckMessages();
+
             var user = await userService.GetUserById(id);
             var model = new UserRolesViewModel
             {
@@ -74,20 +95,22 @@ namespace MyArtPlace.Controllers
                 await userManager.AddToRolesAsync(user, model.RoleNames);
             }
 
+            MessageViewModel.Message.Add(MessageConstants.SuccessMessage, "Successful saved changes!");
+
             return RedirectToAction(nameof(ManageUsers));
         }
 
-        public async Task<IActionResult> Search(string Username)
-        {
-            var user = await userService.GetUserByUsername(Username);
-            var users = new List<MyArtPlaceUser>();
+        //public async Task<IActionResult> Search(string Username)
+        //{
+        //    var user = await userService.GetUserByUsername(Username);
+        //    var users = new List<MyArtPlaceUser>();
 
-            if (user != null)
-            {
-                users.Add(user);
-            }
+        //    if (user != null)
+        //    {
+        //        users.Add(user);
+        //    }
 
-            return View("ManageUsers", users);
-        }
+        //    return View("ManageUsers", users);
+        //}
     }
 }

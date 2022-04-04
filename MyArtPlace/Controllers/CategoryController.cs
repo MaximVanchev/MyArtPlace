@@ -3,12 +3,13 @@ using Microsoft.AspNetCore.Mvc;
 using MyArtPlace.Core.Constants;
 using MyArtPlace.Core.Contracts;
 using MyArtPlace.Core.Models.Admin;
+using MyArtPlace.Core.Models.Common;
 using MyArtPlace.Core.Services;
 
 namespace MyArtPlace.Controllers
 { 
     [Authorize(Roles = "Admin")]
-    public class CategoryController : Controller
+    public class CategoryController : BaseController
     {
         private readonly ICategoryService categoryService;
 
@@ -19,7 +20,10 @@ namespace MyArtPlace.Controllers
 
         public async Task<IActionResult> ManageCategories()
         {
+            await CheckMessages();
+
             var categories = await categoryService.AllCategories();
+
 
             return View(categories);
         }
@@ -27,6 +31,8 @@ namespace MyArtPlace.Controllers
         public async Task<IActionResult> Add()
         {
             var category = new AddCategoryViewModel();
+
+            await CheckMessages();
 
             return View(category);
         }
@@ -41,14 +47,14 @@ namespace MyArtPlace.Controllers
 
             if (await categoryService.AddCategory(model))
             {
-                ViewData[MessageConstants.SuccessMessage] = "Successful added category!";
+                MessageViewModel.Message.Add(MessageConstants.SuccessMessage, "Succsessful added category!");
             }
             else
             {
-                ViewData[MessageConstants.ErrorMessage] = "There was an error!";
+                MessageViewModel.Message.Add(MessageConstants.ErrorMessage, "There was an error!");
             }
 
-            return RedirectToAction(nameof(ManageCategories) , ViewData);
+            return RedirectToAction(nameof(ManageCategories));
         }
 
         [HttpPost]
@@ -57,11 +63,11 @@ namespace MyArtPlace.Controllers
 
             if (await categoryService.DeleteCategoryById(id))
             {
-                ViewData[MessageConstants.SuccessMessage] = "Succsessful deleted category!";
+                MessageViewModel.Message.Add(MessageConstants.SuccessMessage, "Succsessful deleted category!");
             }
             else
             {
-                ViewData[MessageConstants.ErrorMessage] = "There was an error!";
+                MessageViewModel.Message.Add(MessageConstants.ErrorMessage, "There was an error!");
             }
 
             return RedirectToAction(nameof(ManageCategories), ViewData);
