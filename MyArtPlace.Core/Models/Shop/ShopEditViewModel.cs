@@ -11,8 +11,10 @@ namespace MyArtPlace.Core.Models.Shop
 {
     public class ShopEditViewModel
     {
-        [Required]
-        public Guid Id { get; set; }
+        public ShopEditViewModel()
+        {
+            AllCurrencies = new List<Currency>();
+        }
 
         [Required]
         [StringLength(DatabaseConstants.Shop_Name_Max_Length, MinimumLength = DatabaseConstants.Name_Min_Length)]
@@ -25,11 +27,8 @@ namespace MyArtPlace.Core.Models.Shop
         public string? Location { get; set; }
 
         [Required]
-        [StringLength(DatabaseConstants.Guid_Max_Length)]
-        public Guid CurrencyId { get; set; }
-
-        [Required]
-        public Currency Currency { get; set; }
+        [StringLength(DatabaseConstants.Currency_Iso_Length, MinimumLength = DatabaseConstants.Currency_Iso_Length)]
+        public string Currency { get; set; }
 
         public IEnumerable<Currency> AllCurrencies { get; set; }
     }

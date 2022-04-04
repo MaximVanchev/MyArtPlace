@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using MyArtPlace.Areas.Identity.Data;
 using MyArtPlace.Core.Contracts;
 using MyArtPlace.Core.Models.Shop;
@@ -16,10 +17,12 @@ namespace MyArtPlace.Core.Services
     public class ShopService : IShopService
     {
         private readonly IApplicationDbRepository repo;
+        private readonly UserManager<MyArtPlaceUser> userManager;
 
-        public ShopService(IApplicationDbRepository _repo)
+        public ShopService(IApplicationDbRepository _repo , UserManager<MyArtPlaceUser> _userManager)
         {
             repo = _repo;
+            userManager = _userManager;
         }
 
         public async Task CreateShop(ShopViewModel model, string userId)
@@ -32,10 +35,13 @@ namespace MyArtPlace.Core.Services
                 Description = model.Description,
                 Location = model.Location,
                 User = user,
-                Currency = model.Currency,
+                Currency = await GetCurrencyByIso(model.Currency),
             };
 
             await repo.AddAsync(shop);
+
+            await userManager.AddToRoleAsync(user, "Seller");
+
             await repo.SaveChangesAsync();
         }
 
@@ -44,9 +50,34 @@ namespace MyArtPlace.Core.Services
             return await repo.All<Currency>().ToListAsync();
         }
 
-        public Task<ShopEditViewModel> ShopEditById(Guid Id)
+        public async Task<Currency> GetCurrencyByIso(string Iso)
         {
-            throw new NotImplementedException();
+            return await repo.All<Currency>().FirstOrDefaultAsync(c => c.Iso == Iso);
+        }
+
+        public async Task<ShopEditViewModel> GetShopForEdit(string userId)
+        {
+            var user = await repo.All<MyArtPlaceUser>().Include(u => u.Shop).ThenInclude(s => s.Currency).FirstOrDefaultAsync(u => u.Id == userId);
+
+            return new ShopEditViewModel()
+            {
+                Name = user.Shop.Name,
+                Currency = user.Shop.Currency.Iso,
+                Location = user.Shop.Location,
+                Description = user.Shop.Description
+            };
+        }
+
+        public async Task EditShop(ShopEditViewModel model , string userId)
+        {
+            var user = await repo.All<MyArtPlaceUser>().Include(u => u.Shop).FirstOrDefaultAsync(u => u.Id == userId);
+
+            user.Shop.Name = model.Name;
+            user.Shop.Currency = await GetCurrencyByIso(model.Currency);
+            user.Shop.Location = model.Location;
+            user.Shop.Description = model.Description;
+
+            await repo.SaveChangesAsync();
         }
     }
 }

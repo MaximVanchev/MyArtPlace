@@ -13,8 +13,12 @@ namespace MyArtPlace.Core.Contracts
     {
         Task CreateShop(ShopViewModel model , string userId);
 
-        Task<ShopEditViewModel> ShopEditById(Guid Id);
+        Task<ShopEditViewModel> GetShopForEdit(string userId);
+
+        Task EditShop(ShopEditViewModel model , string userId);
 
         Task<IEnumerable<Currency>> GetAllCurrencies();
+
+        Task<Currency> GetCurrencyByIso(string Iso);
     }
 }
