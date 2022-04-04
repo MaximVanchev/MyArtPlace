@@ -20,7 +20,7 @@ namespace MyArtPlace.Infrastructure.Data
         public Guid Id { get; set; }
 
         [Required]
-        [StringLength(DatabaseConstants.Category_Name_Max_Length, MinimumLength = DatabaseConstants.Name_Min_Length)]
+        [StringLength(DatabaseConstants.Category_Name_Max_Length)]
         public string Name { get; set; }
 
         public IList<Product> Products { get; set; }

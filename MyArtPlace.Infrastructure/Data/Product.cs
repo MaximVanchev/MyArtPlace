@@ -28,7 +28,8 @@ namespace MyArtPlace.Infrastructure.Data
         [StringLength(DatabaseConstants.Description_Max_Length)]
         public string? Description { get; set; }
 
-        public byte[]? Image { get; set; }
+        [Required]
+        public byte[] Image { get; set; }
 
         public IList<MyArtPlaceUser> UsersLiked { get; set; }
 

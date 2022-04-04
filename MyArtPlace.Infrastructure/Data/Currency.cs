@@ -20,7 +20,7 @@ namespace MyArtPlace.Infrastructure.Data
         public Guid Id { get; set; }
 
         [Required]
-        [StringLength(DatabaseConstants.Currency_Iso_Length , MinimumLength = DatabaseConstants.Currency_Iso_Length)]
+        [StringLength(DatabaseConstants.Currency_Iso_Length)]
         public string Iso { get; set; }
 
         public List<Shop> Shops { get; set; }
