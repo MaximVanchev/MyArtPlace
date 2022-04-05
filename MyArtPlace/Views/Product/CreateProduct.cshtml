@@ -1,0 +1,119 @@
+﻿@using MyArtPlace.Core.Models.Product
+@using Microsoft.AspNetCore.Http
+@model ProductViewModel
+
+@{
+    ViewData["Title"] = "Create Product";
+    Layout = null;
+    var base64 = Convert.ToBase64String(Model.ImageByteArray);
+    var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>@ViewData["Title"]</title>
+    <!-- plugins:css -->
+    <link rel="stylesheet" href="~/corona_bootstrap/vendors/mdi/css/materialdesignicons.min.css">
+    <link rel="stylesheet" href="~/corona_bootstrap/vendors/css/vendor.bundle.base.css">
+    <link rel="stylesheet" href="~/corona_bootstrap/vendors/jvectormap/jquery-jvectormap.css">
+    <link rel="stylesheet" href="~/corona_bootstrap/plugins/toastr/toastr.min.css" />
+    <!-- endinject -->
+    <!-- Plugin css for this page -->
+    <!-- End plugin css for this page -->
+    <!-- inject:css -->
+    <!-- endinject -->
+    <!-- Layout styles -->
+    <link rel="stylesheet" href="~/corona_bootstrap/css/style.css">
+    <link rel="stylesheet" href="~/css/my_css/my_register.css" />
+    <link rel="stylesheet" href="~/css/my_css/product_edit.css" />
+    <!-- End layout styles -->
+    <link rel="shortcut icon" href="~/corona_bootstrap/images/MyArtPlace_Circle_Logo.png" />
+</head>
+<body>
+    <div class="container-scroller">
+        <div class="container-fluid page-body-wrapper full-page-wrapper">
+            <div class="row w-100 m-0">
+                <div class="content-wrapper full-page-wrapper d-flex align-items-center">
+                    <div class="card col-lg-4 mx-auto">
+                        <div class="card-body px-5 py-5">
+                            <ItemGroup>      <FrameworkReference Include="Microsoft.AspNetCore.App" />  </ItemGroup>
+                            <h3 class="card-title text-left mb-3">@ViewData["Title"]</h3>
+                            <form asp-action="CreateProduct" id="CreateProduct" asp-controller="Product" method="post" enctype="multipart/form-data">
+                                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                <div class="form-group">
+                                    <label asp-for="Image"></label>
+                                    <div id="image">
+                                        <img id="back" src="@imgSrc" />
+                                        <label for="imageInput">
+                                            <div id="frontBg">
+                                                <img id="front" src="~/corona_bootstrap/images/user_profile_hover_image.png" />
+                                            </div>
+                                        </label>
+                                    </div>
+                                    <input accept="image/*" id="imageInput" hidden type="file" asp-for="@Model.Image" />
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="Name"></label>
+                                    <input asp-for="Name" class="form-control" aria-required="true" />
+                                    <span asp-validation-for="Name" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="Description"></label>
+                                    <input asp-for="Description" class="form-control" aria-required="true" />
+                                    <span asp-validation-for="Description" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="Price"></label>
+                                    <input asp-for="Price" class="form-control" aria-required="true" />
+                                    <span asp-validation-for="Price" class="text-danger"></span>
+                                </div>
+                                <label asp-for="Category"></label>
+                                <select asp-for="Category" style="width:100%;" class="btn btn-info" type="button"
+                                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    @foreach (var category in Model.AllCategories)
+                                    {
+                                        <option value="@category.Name">@category.Name</option>
+                                    }
+                                </select>
+                                <div class="text-center">
+                                    <button type="submit" class="btn btn-primary btn-block enter-btn">Submit</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <!-- content-wrapper ends -->
+            </div>
+            <!-- row ends -->
+        </div>
+        <!-- page-body-wrapper ends -->
+    </div>
+    <!-- container-scroller -->
+    <!-- plugins:js -->
+    <script src="~/corona_bootstrap/vendors/js/vendor.bundle.base.js"></script>
+    <!-- endinject -->
+    <!-- Plugin js for this page -->
+    <!-- End plugin js for this page -->
+    <!-- inject:js -->
+    <script src="~/corona_bootstrap/js/off-canvas.js"></script>
+    <script src="~/corona_bootstrap/js/hoverable-collapse.js"></script>
+    <script src="~/corona_bootstrap/js/misc.js"></script>
+    <script src="~/corona_bootstrap/js/settings.js"></script>
+    <script src="~/corona_bootstrap/js/todolist.js"></script>
+    <script src="~/corona_bootstrap/plugins/jquery/jquery.min.js"></script>
+    <script src="~/corona_bootstrap/plugins/toastr/toastr.min.js"></script>
+    <partial name="_UserMessages" />
+    <partial name="_ValidationScriptsPartial" />
+    <!-- endinject -->
+    <script>
+        document.getElementById("imageInput").onchange = function(){
+            let file = this.files[0];
+            document.getElementById("back").src = URL.createObjectURL(file);
+        }
+    </script>
+</body>
+</html>

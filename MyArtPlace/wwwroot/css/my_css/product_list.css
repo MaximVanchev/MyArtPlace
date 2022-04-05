@@ -1,0 +1,26 @@
+﻿#products {
+    width: 60%;
+    margin: auto;
+    height: 100%;
+}
+
+#image
+{
+    height: 200px;
+    width: 200px;
+}
+
+.content-wrapper
+{
+    padding:0;
+}
+
+#title
+{
+    margin:auto;
+}
+
+.card-body
+{
+    height:100%;
+}

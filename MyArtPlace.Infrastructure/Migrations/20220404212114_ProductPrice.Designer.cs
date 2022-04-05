@@ -3,17 +3,19 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MyArtPlace.Data;
 
 #nullable disable
 
-namespace MyArtPlace.Infrastructure.Migrations
+namespace MyArtPlace.Migrations
 {
     [DbContext(typeof(MyArtPlaceContext))]
-    partial class MyArtPlaceContextModelSnapshot : ModelSnapshot
+    [Migration("20220404212114_ProductPrice")]
+    partial class ProductPrice
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

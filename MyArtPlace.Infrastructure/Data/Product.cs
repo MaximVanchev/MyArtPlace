@@ -31,6 +31,11 @@ namespace MyArtPlace.Infrastructure.Data
         [Required]
         public byte[] Image { get; set; }
 
+        [Required]
+        [Range(DatabaseConstants.Price_Min_Range ,DatabaseConstants.Price_Max_Pange)]
+        [DataType("decimal(19,4)")]
+        public Decimal Price { get; set; }
+
         public IList<MyArtPlaceUser> UsersLiked { get; set; }
 
         public IList<UsersCart> UsersCarts { get; set; }

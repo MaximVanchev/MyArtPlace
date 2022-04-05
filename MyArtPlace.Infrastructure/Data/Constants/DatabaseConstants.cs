@@ -20,5 +20,7 @@ namespace MyArtPlace.Infrastructure.Data.Constants
         public const int Username_Max_Length = 50;
         public const int Products_Count_Max_Length = 10;
         public const int Products_Count_Min_Length = 1;
+        public const double Price_Min_Range = 1.00;
+        public const double Price_Max_Pange = 100000.00;
     }
 }

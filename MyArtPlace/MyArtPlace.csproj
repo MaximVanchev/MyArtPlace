@@ -22,14 +22,9 @@
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.15.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.2" />
   </ItemGroup>
-
+  
   <ItemGroup>
     <ProjectReference Include="..\MyArtPlace.Core\MyArtPlace.Core.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Views\Shop\" />
-    <Folder Include="Views\Product\" />
   </ItemGroup>
 
 </Project>

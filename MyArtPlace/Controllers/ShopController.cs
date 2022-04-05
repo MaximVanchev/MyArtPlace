@@ -68,7 +68,7 @@ namespace MyArtPlace.Controllers
             catch (Exception)
             {
                 MessageViewModel.Message.Add(MessageConstants.ErrorMessage, "There was an error!");
-                return View();
+                return Redirect("/");
             }
         }
 

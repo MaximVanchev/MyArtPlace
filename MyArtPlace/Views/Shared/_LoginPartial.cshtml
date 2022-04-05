@@ -8,11 +8,14 @@
     {
         @if (User.IsInRole("Admin"))
         {
-            <li class="nav-item">
-                <a class="nav-link mb-0 d-none d-sm-block navbar-profile-name" asp-action="ManageUsers" asp-controller="Admin">Manage Users</a>
+             <li class="nav-item">
+                <a class="nav-link mb-0 d-none d-sm-block navbar-profile-name" asp-action="Index" asp-controller="Home">Home</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link mb-0 d-none d-sm-block navbar-profile-name" asp-action="CreateRole" asp-controller="Admin">Create Role</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link mb-0 d-none d-sm-block navbar-profile-name" asp-action="ManageUsers" asp-controller="Admin">Manage Users</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link mb-0 d-none d-sm-block navbar-profile-name" asp-action="ManageCategories" asp-controller="Category">Manage Categories</a>
@@ -24,10 +27,10 @@
         @if (User.IsInRole("Seller"))
         {
             <li class="nav-item">
-                <a class="nav-link btn btn-success create-new-button" asp-action="CreateProduct" asp-controller="Product">+ Create Product</a>
+                <a class="nav-link mb-0 d-none d-sm-block navbar-profile-name" asp-action="MyProducts" asp-controller="Product">My Products</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link mb-0 d-none d-sm-block navbar-profile-name" asp-action="MyProducts" asp-controller="Product">My Products</a>
+                <a class="nav-link btn btn-success create-new-button" asp-action="CreateProduct" asp-controller="Product">+ Create Product</a>
             </li>
         }
         else

@@ -1,0 +1,72 @@
+﻿@using MyArtPlace.Core.Models.Product
+@model IEnumerable<ProductListViewModel>
+
+@{
+    ViewData["Title"] = "My Products";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>@ViewData["Title"]</title>
+    <!-- plugins:css -->
+    <link rel="stylesheet" href="~/css/my_css/product_list.css">
+    <!-- endinject -->
+    <!-- Plugin css for this page -->
+    <!-- End plugin css for this page -->
+    <!-- inject:css -->
+    <!-- endinject -->
+    <!-- Layout styles -->
+    <!-- End layout styles -->
+    <link rel="shortcut icon" href="~/corona_bootstrap/images/MyArtPlace_Circle_Logo.png" />
+</head>
+<body>
+    <div class="row">
+        <div class="col-12">
+            <div class="card-body" id="products">
+                <h4 class="card-title" id="title">@ViewData["Title"]</h4>
+                <div class="table-responsive">
+                    @foreach (var product in Model)
+                    {
+                        var base64 = Convert.ToBase64String(product.ImageByteArray);
+                        var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
+                        <div>
+                            <div>
+                                <div>
+                                    <div>
+                                        <img id="image" src="@imgSrc">
+                                        <div>
+                                            <div>
+                                                <div id="category"><a>@product.Category</a></div>
+                                            </div>
+                                            <div>
+                                                <div id="name">@product.Name</div>
+                                                <div id="price">@product.Price @product.Iso</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- endinject -->
+    <!-- Plugin js for this page -->
+    <!-- End plugin js for this page -->
+    <!-- inject:js -->
+    <partial name="_ValidationScriptsPartial" />
+    <!-- endinject -->
+    <script>
+        document.getElementById("imageInput").onchange = function(){
+            let file = this.files[0];
+            document.getElementById("back").src = URL.createObjectURL(file);
+        }
+    </script>
+</body>
+</html>
