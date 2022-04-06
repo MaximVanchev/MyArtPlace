@@ -60,11 +60,15 @@ namespace MyArtPlace.Core.Services
             product.Category = await GetCategoryByName(model.Category);
             product.Price = model.Price;
 
-            using (var memoryStream = new MemoryStream())
-            {
-                await model.Image.CopyToAsync(memoryStream);
 
-                product.Image = memoryStream.ToArray();
+            if (model.Image != null)
+            {
+                using (var memoryStream = new MemoryStream())
+                {
+                    await model.Image.CopyToAsync(memoryStream);
+
+                    product.Image = memoryStream.ToArray();
+                }
             }
 
             await repo.SaveChangesAsync();
@@ -78,7 +82,11 @@ namespace MyArtPlace.Core.Services
 
         public async Task<ProductEditViewModel> GetProductForEdit(Guid productId , string userId)
         {
-            var product = await repo.All<Product>().Include(p => p.Shop).ThenInclude(s => s.User).FirstOrDefaultAsync(p => p.Id == productId);
+            var product = await repo.All<Product>()
+                .Include(p => p.Category)
+                .Include(p => p.Shop)
+                .ThenInclude(s => s.User)
+                .FirstOrDefaultAsync(p => p.Id == productId);
 
             if (product.Shop.User.Id != userId)
             {
@@ -92,7 +100,8 @@ namespace MyArtPlace.Core.Services
                 Description = product.Description,
                 Price = product.Price,
                 Id = product.Id,
-                ImageByteArray  = product.Image
+                ImageByteArray  = product.Image,
+                AllCategories = await GetAllCategories()
             };
         }
 
@@ -123,6 +132,7 @@ namespace MyArtPlace.Core.Services
 
             var products = await repo.All<Product>()
                 .Include(p => p.Category)
+                .Include(p => p.UsersLiked)
                 .Include(p => p.Shop)
                 .ThenInclude(s => s.Currency)
                 .ToListAsync();
@@ -151,7 +161,7 @@ namespace MyArtPlace.Core.Services
                 throw new ArgumentException("You dont have permission to delete this product!");
             }
 
-            await repo.DeleteAsync<Product>(product);
+            await repo.DeleteAsync<Product>(product.Id);
 
             await repo.SaveChangesAsync();
         }
@@ -174,7 +184,11 @@ namespace MyArtPlace.Core.Services
 
         public async Task DislikeProduct(Guid productId, string userId)
         {
-            var user = await repo.All<MyArtPlaceUser>().Include(u => u.Shop).ThenInclude(s => s.Products).FirstOrDefaultAsync(u => u.Id == userId);
+            var user = await repo.All<MyArtPlaceUser>()
+                .Include(u => u.Shop)
+                .ThenInclude(s => s.Products)
+                .Include(u => u.LikedProducts)
+                .FirstOrDefaultAsync(u => u.Id == userId);
 
             var product = await repo.GetByIdAsync<Product>(productId);
 
@@ -186,6 +200,50 @@ namespace MyArtPlace.Core.Services
             user.LikedProducts.Remove(product);
 
             await repo.SaveChangesAsync();
+        }
+
+        public async Task<IEnumerable<ProductListViewModel>> GetUserFavoritesProducts(string userId)
+        {
+            var user = await repo.GetByIdAsync<MyArtPlaceUser>(userId);
+
+            var products = await repo.All<Product>()
+                .Include(p => p.Category)
+                .Include(p => p.UsersLiked)
+                .ThenInclude(u => u.Shop)
+                .ThenInclude(s => s.Currency)
+                .Where(p => p.UsersLiked.Contains(user))
+                .Select(p => new ProductListViewModel
+                {
+                    Name = p.Name,
+                    Category = p.Category.Name,
+                    Id = p.Id,
+                    ImageByteArray = p.Image,
+                    Price = p.Price,
+                    Iso = p.Shop.Currency.Iso,
+                    Likes = p.UsersLiked.Count()
+                })
+                .ToListAsync();
+
+            return products;
+        }
+
+        public async Task<ProductDetailsViewModel> GetProductDetails(Guid productId)
+        {
+            var product = await repo.All<Product>()
+                .Include(p => p.Category)
+                .Include(p => p.Shop)
+                .ThenInclude(s => s.Currency)
+                .FirstOrDefaultAsync(p => p.Id == productId);
+
+            return new ProductDetailsViewModel()
+            {
+                Name = product.Name,
+                Category = product.Category.Name,
+                Description = product.Description,
+                Price = product.Price,
+                ImageByteArray = product.Image,
+                Currency = product.Shop.Currency.Iso
+            };
         }
     }
 }

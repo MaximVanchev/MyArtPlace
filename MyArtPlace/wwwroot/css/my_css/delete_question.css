@@ -1,0 +1,17 @@
+﻿#yes
+{
+    float:left;
+    position:relative;
+}
+
+#no 
+{
+    float: right;
+    position:relative;
+}
+
+#title
+{
+    margin:auto;
+    position:center;
+}

@@ -24,10 +24,14 @@ namespace MyArtPlace.Core.Contracts
 
         Task<IEnumerable<ProductListViewModel>> GetAllProducts(string userId);
 
+        Task<IEnumerable<ProductListViewModel>> GetUserFavoritesProducts(string userId);
+
         Task DeleteProduct(Guid productId , string userId);
 
         Task LikeProduct(Guid productId, string userId);
 
         Task DislikeProduct(Guid productId, string userId);
+
+        Task<ProductDetailsViewModel> GetProductDetails(Guid productId);
     }
 }

@@ -14,6 +14,7 @@
     <title>@ViewData["Title"]</title>
     <!-- plugins:css -->
     <link rel="stylesheet" href="~/css/my_css/product_list.css">
+    <link rel="stylesheet" href="~/corona_bootstrap/vendors/jvectormap/jquery-jvectormap.css">
     <!-- endinject -->
     <!-- Plugin css for this page -->
     <!-- End plugin css for this page -->
@@ -35,16 +36,26 @@
                         var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
                         <div>
                             <div>
-                                <div>
-                                    <div>
-                                        <img id="image" src="@imgSrc">
-                                        <div>
+                                <div id="product">
+                                    <div id="product-bg">
+                                        <div id="product-parts">
+                                            <img id="image" src="@imgSrc">
                                             <div>
-                                                <div id="category"><a>@product.Category</a></div>
-                                            </div>
-                                            <div>
-                                                <div id="name">@product.Name</div>
-                                                <div id="price">@product.Price @product.Iso</div>
+                                                <div id="product-small-line">
+                                                    <div id="category">@product.Category</div>
+                                                    <div id="likes">@product.Likes</div>
+                                                </div>
+                                                <img id="hart" src="~/corona_bootstrap/images/hart.png" />
+                                                <div id="product-title">
+                                                    <div id="name">@product.Name</div>
+                                                    <div id="price">@product.Price @product.Iso</div>
+                                                </div>
+                                                <div id="actions" style="margin-top:0px;">
+                                                    <a class="btn btn-warning" id="edit" style="min-width: 145px;" asp-action="EditProduct" asp-controller="Product"
+                                                    asp-route-productId="@product.Id">Edit</a>
+                                                    <a class="btn btn-danger" id="delete" style="min-width: 145px; margin-left:5px;" asp-action="DeleteProductQuestion" asp-route-productId="@product.Id"
+                                                    asp-controller="Product">Delete</a>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -58,15 +69,10 @@
     </div>
     <!-- endinject -->
     <!-- Plugin js for this page -->
+    <script src="~/corona_bootstrap/plugins/jquery/jquery.min.js"></script>
     <!-- End plugin js for this page -->
     <!-- inject:js -->
     <partial name="_ValidationScriptsPartial" />
     <!-- endinject -->
-    <script>
-        document.getElementById("imageInput").onchange = function(){
-            let file = this.files[0];
-            document.getElementById("back").src = URL.createObjectURL(file);
-        }
-    </script>
 </body>
 </html>

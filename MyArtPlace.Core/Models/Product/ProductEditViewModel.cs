@@ -16,7 +16,6 @@ namespace MyArtPlace.Core.Models.Product
         {
             AllCategories = new List<Category>();
         }
-
         [Required]
         public Guid Id { get; set; }
 
@@ -29,11 +28,9 @@ namespace MyArtPlace.Core.Models.Product
 
         public byte[]? ImageByteArray { get; set; }
 
-        [Required]
         public IFormFile? Image { get; set; }
 
         [Required]
-        [StringLength(DatabaseConstants.Category_Name_Max_Length, MinimumLength = DatabaseConstants.Name_Min_Length)]
         public string Category { get; set; }
 
         public IEnumerable<Category> AllCategories { get; set; }

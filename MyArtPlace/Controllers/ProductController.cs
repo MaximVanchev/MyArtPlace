@@ -10,7 +10,7 @@ using System.Security.Claims;
 
 namespace MyArtPlace.Controllers
 {
-    [Authorize(Roles = "Seller")]
+    [Authorize]
     public class ProductController : BaseController
     {
         private readonly IProductService productService;
@@ -20,6 +20,7 @@ namespace MyArtPlace.Controllers
             productService = _productService;
         }
 
+        [Authorize(Roles = "Seller")]
         public async Task<IActionResult> CreateProduct()
         {
             await CheckMessages();
@@ -46,6 +47,7 @@ namespace MyArtPlace.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Seller")]
         public async Task<IActionResult> CreateProduct(ProductViewModel model)
         {
             if (!ModelState.IsValid)
@@ -56,7 +58,7 @@ namespace MyArtPlace.Controllers
             try
             {
                 await productService.AddProduct(model, User.FindFirstValue(ClaimTypes.NameIdentifier));
-                MessageViewModel.Message.Add(MessageConstants.SuccessMessage, "Successful saved changes!");
+                MessageViewModel.Message.Add(MessageConstants.SuccessMessage, "Successful created product!");
             }
             catch (Exception)
             {
@@ -66,6 +68,7 @@ namespace MyArtPlace.Controllers
             return Redirect("/");
         }
 
+        [Authorize(Roles = "Seller")]
         public async Task<IActionResult> MyProducts()
         {
             await CheckMessages();
@@ -82,6 +85,7 @@ namespace MyArtPlace.Controllers
             }
         }
 
+        [Authorize(Roles = "Seller")]
         public async Task<IActionResult> EditProduct(Guid productId)
         {
             await CheckMessages();
@@ -104,6 +108,7 @@ namespace MyArtPlace.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Seller")]
         public async Task<IActionResult> EditProduct(ProductEditViewModel model)
         {
             if (!ModelState.IsValid)
@@ -124,13 +129,17 @@ namespace MyArtPlace.Controllers
             return RedirectToAction(nameof(MyProducts));
         }
 
+        [Authorize(Roles = "Seller")]
         public async Task<IActionResult> DeleteProductQuestion(Guid productId)
         {
+            await CheckMessages();
+
             ViewData["ProductId"] = productId;
             return View();
         }
 
         [HttpPost]
+        [Authorize(Roles = "Seller")]
         public async Task<IActionResult> DeleteProduct(Guid productId)
         {
             try
@@ -181,6 +190,39 @@ namespace MyArtPlace.Controllers
             catch (ArgumentException aex)
             {
                 MessageViewModel.Message.Add(MessageConstants.ErrorMessage, aex.Message);
+            }
+            catch (Exception)
+            {
+                MessageViewModel.Message.Add(MessageConstants.ErrorMessage, "There was an error!");
+            }
+
+            return RedirectToAction(nameof(FavoritesProducts));
+        }
+
+        public async Task<IActionResult> FavoritesProducts()
+        {
+            await CheckMessages();
+
+            try
+            {
+                var model = await productService.GetUserFavoritesProducts(User.FindFirstValue(ClaimTypes.NameIdentifier));
+                return View(model);
+            }
+            catch (Exception)
+            {
+                MessageViewModel.Message.Add(MessageConstants.ErrorMessage, "There was an error!");
+                return Redirect("/");
+            }
+        }
+
+        public async Task<IActionResult> ProductDetails(Guid productId)
+        {
+            await CheckMessages();
+
+            try
+            {
+                var model = await productService.GetProductDetails(productId);
+                return View(model);
             }
             catch (Exception)
             {

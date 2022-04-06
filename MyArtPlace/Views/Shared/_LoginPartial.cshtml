@@ -4,13 +4,13 @@
 @inject UserManager<MyArtPlaceUser> UserManager
 
 <ul class="navbar-nav">
+    <li class="nav-item">
+        <a class="nav-link mb-0 d-none d-sm-block navbar-profile-name" asp-action="Index" asp-controller="Home">Home</a>
+    </li>
     @if (SignInManager.IsSignedIn(User))
     {
         @if (User.IsInRole("Admin"))
         {
-             <li class="nav-item">
-                <a class="nav-link mb-0 d-none d-sm-block navbar-profile-name" asp-action="Index" asp-controller="Home">Home</a>
-            </li>
             <li class="nav-item">
                 <a class="nav-link mb-0 d-none d-sm-block navbar-profile-name" asp-action="CreateRole" asp-controller="Admin">Create Role</a>
             </li>
@@ -24,6 +24,9 @@
                 <a class="nav-link mb-0 d-none d-sm-block navbar-profile-name" asp-action="ManageCurrencies" asp-controller="Currency">Manage Currencies</a>
             </li>
         }
+        <li class="nav-item">
+            <a class="nav-link mb-0 d-none d-sm-block navbar-profile-name" asp-action="FavoritesProducts" asp-controller="Product">Favorites</a>
+        </li>
         @if (User.IsInRole("Seller"))
         {
             <li class="nav-item">

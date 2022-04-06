@@ -2,7 +2,7 @@
 @model IEnumerable<ProductListViewModel>
 
 @{
-    ViewData["Title"] = "Products";
+    ViewData["Title"] = "My Products";
 }
 
 <!DOCTYPE html>
@@ -51,35 +51,12 @@
                                                     <div id="price">@product.Price @product.Iso</div>
                                                 </div>
                                                 <div id="actions" style="margin-top:0px;">
-                                                    <a class="btn btn-info" id="edit" style="min-width: 145px;" asp-action="ProductDetails" asp-controller="Product"
+                                                    <a class="btn btn-info" id="details" style="min-width: 145px;" asp-action="ProductDetails" asp-controller="Product"
                                                     asp-route-productId="@product.Id">Details</a>
-
-                                                    @if (product.UserLiked)
-                                                    {
-                                                        @using (Html.BeginForm("DislikeProduct", "Product", FormMethod.Post))
-                                                        {
-                                                            <button type="submit" class="btn btn-danger" id="dislike" style="min-width: 145px; margin-left:5px;" asp-action="DislikeProduct"
-                                                            asp-route-productId="@product.Id" asp-controller="Product">
-                                                                Dislike
-                                                            </button>
-                                                        }
-                                                    }
-                                                    else
-                                                    {
-                                                        @using (Html.BeginForm("LikeProduct", "Product", FormMethod.Post))
-                                                        {
-                                                            <button type="submit" class="btn btn-success" id="like" style="min-width: 145px; margin-left:5px;" asp-action="LikeProduct"
-                                                            asp-route-productId="@product.Id" asp-controller="Product">
-                                                                Like
-                                                            </button>
-                                                        }
-                                                    }
-                                                    @using (Html.BeginForm("", "Cart", FormMethod.Post))
+                                                    @using (Html.BeginForm("DislikeProduct", "Product", FormMethod.Post))
                                                     {
                                                         <button type="submit" class="btn btn-danger" id="dislike" style="min-width: 145px; margin-left:5px;" asp-action="DislikeProduct"
-                                                        asp-route-productId="@product.Id" asp-controller="Product">
-                                                            Add to cart
-                                                        </button>
+                                                        asp-route-productId="@product.Id" asp-controller="Product">Dislike</button>
                                                     }
                                                 </div>
                                             </div>
