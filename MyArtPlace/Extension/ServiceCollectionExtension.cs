@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using MyArtPlace.Areas.Identity.Data;
 using MyArtPlace.Core.Contracts;
+using MyArtPlace.Core.Models.Mail;
 using MyArtPlace.Core.Services;
 using MyArtPlace.Data;
 using MyArtPlace.Infrastructure.Data;
@@ -20,6 +21,7 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IProductService, ProductService>();
             services.AddScoped<ICartService, CartService>();
+            services.AddTransient<IMailService, MailService>();
 
             return services;
         }
@@ -30,6 +32,7 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddDbContext<MyArtPlaceContext>(options =>
                 options.UseSqlServer(connectionString));
             services.AddDatabaseDeveloperPageExceptionFilter();
+            services.Configure<MailSettings>(config.GetSection("MailSettings"));
 
             return services;
         }

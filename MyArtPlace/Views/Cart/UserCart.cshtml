@@ -30,7 +30,7 @@
                                 <td>
                                     @using (Html.BeginForm("DecreaseProductCount", "Cart", FormMethod.Post))
                                     {
-                                        <button type="submit" asp-action="DecreaseProductCount" asp-controller="Cart" 
+                                        <button type="submit" asp-action="DecreaseProductCount" asp-controller="Cart"
                                         style="min-width:33px;width:33px;float:left;margin-left:-40px;margin-top:7px;"
                                         asp-method="post" asp-route-cartId="@productCart.CartId" class="btn btn-primary btn-fw">
                                             -
@@ -41,7 +41,7 @@
                                     </div>
                                     @using (Html.BeginForm("IncreaseProductCount", "Cart", FormMethod.Post))
                                     {
-                                        <button type="submit" asp-action="IncreaseProductCount" asp-controller="Cart" 
+                                        <button type="submit" asp-action="IncreaseProductCount" asp-controller="Cart"
                                         style="min-width:33px;width:33px;float:left;margin-top:7px;margin-left:25px;"
                                         asp-method="post" asp-route-cartId="@productCart.CartId" class="btn btn-primary btn-fw">
                                             +
@@ -63,19 +63,24 @@
                         }
                     </tbody>
                 </table>
+                @using (Html.BeginForm("CartUser", "Cart", FormMethod.Post))
+                {
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-group">
                     <label asp-for="Currency" id="currency-lable"></label>
-                    <select asp-for="Currency" id="currency" style="width:100%;" class="btn btn-info dropdown-toggle" type="button"
+                    <input hidden asp-for="@Model.AllCurrencies" Value="@Model.AllCurrencies" />
+                    <input hidden asp-for="@Model.CartProducts" Value="@Model.CartProducts" />
+                    <select asp-for="Currency" style="width:100%;" class="btn btn-info dropdown-toggle" type="button"
                             data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         @foreach (var currency in Model.AllCurrencies)
                         {
                             <option value="@currency.Iso">@currency.Iso</option>
                         }
                     </select>
-                    <span asp-validation-for="Currency" class="text-danger"></span>
+                    <button type="submit" asp-action="UserCart" asp-controller="Cart" style="margin-top: 20px;"
+                                        asp-method="post" class="btn btn-success btn-fw">Next</button>
                 </div>
-                <a class="btn btn-success" id="edit" style="min-width: 145px;" asp-action="CartSubmit" asp-controller="Cart"
-                   asp-route-iso="@Model.Currency">Next</a>
+                }
             </div>
         </div>
     </div>

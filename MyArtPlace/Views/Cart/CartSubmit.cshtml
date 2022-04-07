@@ -1,0 +1,85 @@
+﻿@using MyArtPlace.Core.Models.Cart
+@model CartAddressSubmitViewModel
+@{
+
+    ViewData["Title"] = "Submit Order";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>@ViewData["Title"]</title>
+    <!-- plugins:css -->
+    <link rel="stylesheet" href="~/corona_bootstrap/plugins/toastr/toastr.min.css" />
+    <link rel="stylesheet" href="~/corona_bootstrap/vendors/jvectormap/jquery-jvectormap.css">
+    <link rel="stylesheet" href="~/corona_bootstrap/vendors/mdi/css/materialdesignicons.min.css">
+    <link rel="stylesheet" href="~/corona_bootstrap/vendors/css/vendor.bundle.base.css">
+    <!-- endinject -->
+    <!-- Plugin css for this page -->
+    <!-- End plugin css for this page -->
+    <!-- inject:css -->
+    <!-- endinject -->
+    <!-- Layout styles -->
+    <link rel="stylesheet" href="~/corona_bootstrap/css/style.css">
+    <link rel="stylesheet" href="~/css/my_css/my_register.css" />
+    <!-- End layout styles -->
+    <link rel="shortcut icon" href="~/corona_bootstrap/images/MyArtPlace_Circle_Logo.png" />
+</head>
+<body>
+    <div class="container-scroller">
+        <div class="container-fluid page-body-wrapper full-page-wrapper">
+            <div class="row w-100 m-0">
+                <div class="content-wrapper full-page-wrapper d-flex align-items-center">
+                    <div class="card col-lg-4 mx-auto">
+                        <div class="card-body px-5 py-5">
+                            @using (Html.BeginForm("CartSubmit", "Cart", FormMethod.Post))
+                            {
+                            <h3 class="card-title text-left mb-3">@ViewData["Title"]</h3>
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <input hidden asp-for="@Model.Currency" Value="@Model.Currency" />
+                            <input hidden asp-for="@Model.TotalPrice" Value="@Model.TotalPrice" />
+                            <div class="form-group">
+                                <label asp-for="TotalPrice"></label>
+                                <div class="form-control">@Model.TotalPrice @Model.Currency</div>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="OrederAddress"></label>
+                                <input asp-for="OrederAddress" class="form-control" aria-required="true" />
+                                <span asp-validation-for="OrederAddress" class="text-danger"></span>
+                            </div>
+                            <div class="text-center">
+                                <button type="submit" asp-action="CartSubmit" asp-controller="Cart" asp-method="post" class="btn btn-primary btn-block enter-btn">Submit</button>
+                            </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+                <!-- content-wrapper ends -->
+            </div>
+            <!-- row ends -->
+        </div>
+        <!-- page-body-wrapper ends -->
+    </div>
+    <!-- container-scroller -->
+    <!-- plugins:js -->
+    <script src="~/corona_bootstrap/vendors/js/vendor.bundle.base.js"></script>
+    <!-- endinject -->
+    <!-- Plugin js for this page -->
+    <!-- End plugin js for this page -->
+    <!-- inject:js -->
+    <script src="~/corona_bootstrap/js/off-canvas.js"></script>
+    <script src="~/corona_bootstrap/js/hoverable-collapse.js"></script>
+    <script src="~/corona_bootstrap/js/misc.js"></script>
+    <script src="~/corona_bootstrap/js/settings.js"></script>
+    <script src="~/corona_bootstrap/js/todolist.js"></script>
+    <script src="~/corona_bootstrap/plugins/jquery/jquery.min.js"></script>
+    <script src="~/corona_bootstrap/plugins/toastr/toastr.min.js"></script>
+    <partial name="_UserMessages"/>
+    <partial name="_ValidationScriptsPartial" />
+    <!-- endinject -->
+</body>
+</html>

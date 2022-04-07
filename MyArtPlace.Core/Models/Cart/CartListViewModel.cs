@@ -17,12 +17,10 @@ namespace MyArtPlace.Core.Models.Cart
             CartProducts = new List<CartViewModel>();
         }
 
-        [Required]
-        [StringLength(DatabaseConstants.Currency_Iso_Length)]
         public string? Currency { get; set; }
 
-        public IEnumerable<CartViewModel> CartProducts { get; set; }
+        public IEnumerable<CartViewModel>? CartProducts { get; set; }
 
-        public IEnumerable<Currency> AllCurrencies { get; set; }
+        public IEnumerable<Currency>? AllCurrencies { get; set; }
     }
 }

@@ -35,6 +35,26 @@ namespace MyArtPlace.Controllers
             return Redirect("/");
         }
 
+        [HttpPost]
+        public async Task<IActionResult> UserCart(CartListViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            try
+            {
+                return RedirectToAction(nameof(CartSubmit), new { iso = model.Currency });
+            }
+            catch (Exception)
+            {
+                MessageViewModel.Message.Add(MessageConstants.ErrorMessage, "There was an error!");
+            }
+
+            return RedirectToAction(nameof(UserCart));
+        }
+
         public async Task<IActionResult> CartSubmit(string iso)
         {
             await CheckMessages();
@@ -73,7 +93,7 @@ namespace MyArtPlace.Controllers
             {
                 MessageViewModel.Message.Add(MessageConstants.ErrorMessage, aex.Message);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 MessageViewModel.Message.Add(MessageConstants.ErrorMessage, "There was an error!");
             }

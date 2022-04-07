@@ -17,11 +17,13 @@ namespace MyArtPlace.Core.Services
     {
         private readonly IApplicationDbRepository repo; 
         private readonly IShopService shopService;
+        private readonly IMailService mailService;
 
-        public CartService(IApplicationDbRepository _repo, IShopService _shopService)
+        public CartService(IApplicationDbRepository _repo, IShopService _shopService , IMailService _mailService)
         {
             repo = _repo;
             shopService = _shopService;
+            mailService = _mailService;
         }
 
         public async Task AddProductToCart(Guid productId, string userId)
@@ -108,7 +110,6 @@ namespace MyArtPlace.Core.Services
 
         public async Task SubmitOrder(CartAddressSubmitViewModel model , string userId)
         {
-            StringBuilder sb = new StringBuilder();
 
             var user = await repo.All<MyArtPlaceUser>()
                 .Include(u => u.CartProducts.Where(c => c.InCart == true))
@@ -117,23 +118,26 @@ namespace MyArtPlace.Core.Services
                 .ThenInclude(s => s.Currency)
                 .FirstOrDefaultAsync(u => u.Id == userId);
 
-            sb.AppendLine($"You have an order from {user.UserName}.");
-            sb.AppendLine($"{user.UserName} email is {user.Email}.");
-            sb.AppendLine($"Order address is {model.OrederAddress}.");
-            sb.AppendLine($"The order is :");
-
-            int number = 1;
-
             foreach (var cartProduct in user.CartProducts)
             {
+                var productUser = await repo.All<MyArtPlaceUser>()
+                    .Include(u => u.Shop)
+                    .ThenInclude(s => s.Products)
+                    .FirstOrDefaultAsync(u => u.Shop.Products.Contains(cartProduct.Product));
+                StringBuilder sb = new StringBuilder();
                 cartProduct.InCart = false;
-                sb.AppendLine($"{number}. Product name :{cartProduct.Product.Name} , Product price: {cartProduct.Product.Price} {cartProduct.Product.Shop.Currency.Iso} , Product count: {cartProduct.ProductConut}.");
-                number++;
+                sb.AppendLine($"You have an order from {user.UserName}.");
+                sb.AppendLine($"The buyer email is {user.Email}.");
+                sb.AppendLine($"Order address is : {model.OrederAddress}.");
+                sb.AppendLine($"The order is :");
+                sb.AppendLine($"Product name : {cartProduct.Product.Name}.");
+                sb.AppendLine($"Product price : {cartProduct.Product.Price} {cartProduct.Product.Shop.Currency.Iso}.");
+                sb.AppendLine($"Product count : {cartProduct.ProductConut}.");
+
+                //Sends email to the product creator.
+                //await mailService.SendEmailWithMessageAsync(productUser.Email, productUser.UserName, sb.ToString());
             }
-
-            sb.Append($"Total order cost: {model.TotalPrice} {model.Currency}");
-
-            //Email send sb
+            await repo.SaveChangesAsync();
         }
 
         public async Task<CartListViewModel> GetUserCart(string userId)
@@ -167,6 +171,8 @@ namespace MyArtPlace.Core.Services
             var user = await repo.All<MyArtPlaceUser>()
                 .Include(u => u.CartProducts.Where(c => c.InCart == true))
                 .ThenInclude(c => c.Product)
+                .ThenInclude(p => p.Shop)
+                .ThenInclude(s => s.Currency)
                 .FirstOrDefaultAsync(u => u.Id == userId);
 
             if (user.CartProducts.Count() == 0)
@@ -226,7 +232,7 @@ namespace MyArtPlace.Core.Services
                 totalPrice += BGNPrice * ServiceConstants.BGN_TO_EUR;
             }
 
-            return totalPrice;
+            return Math.Round(totalPrice , 2);
         }
     }
 }
