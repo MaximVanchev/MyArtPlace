@@ -1,0 +1,82 @@
+﻿@using MyArtPlace.Core.Models.Cart
+@model CartListViewModel
+
+@{
+    ViewData["Title"] = "User Cart Products";
+}
+
+
+
+<div class="row">
+    <div class="col-12">
+        <div class="card-body">
+            <h4 class="card-title">@ViewData["Title"]</h4>
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Price</th>
+                            <th>Count</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var productCart in Model.CartProducts)
+                        {
+                            <tr>
+                                <td>@productCart.ProductName</td>
+                                <td>@productCart.ProductPrice @productCart.ProductIso</td>
+                                <td>
+                                    @using (Html.BeginForm("DecreaseProductCount", "Cart", FormMethod.Post))
+                                    {
+                                        <button type="submit" asp-action="DecreaseProductCount" asp-controller="Cart" 
+                                        style="min-width:33px;width:33px;float:left;margin-left:-40px;margin-top:7px;"
+                                        asp-method="post" asp-route-cartId="@productCart.CartId" class="btn btn-primary btn-fw">
+                                            -
+                                        </button>
+                                    }
+                                    <div style="margin-left:20px; margin-top:15px; margin-right:5px; height: 5px;width:5px;float:left">
+                                        @productCart.ProductCount
+                                    </div>
+                                    @using (Html.BeginForm("IncreaseProductCount", "Cart", FormMethod.Post))
+                                    {
+                                        <button type="submit" asp-action="IncreaseProductCount" asp-controller="Cart" 
+                                        style="min-width:33px;width:33px;float:left;margin-top:7px;margin-left:25px;"
+                                        asp-method="post" asp-route-cartId="@productCart.CartId" class="btn btn-primary btn-fw">
+                                            +
+                                        </button>
+                                    }
+                                </td>
+                                @using (Html.BeginForm("RemoveProductFromCart", "Cart", FormMethod.Post))
+                                {
+                                    <td>
+                                        <a class="btn btn-info" id="edit" style="min-width: 145px;" asp-action="ProductDetails" asp-controller="Product"
+                                   asp-route-productId="@productCart.ProductId">Details</a>
+                                        <button type="submit" asp-action="RemoveProductFromCart" asp-controller="Cart" style="margin-left: 10px;"
+                                        asp-method="post" asp-route-cartId="@productCart.CartId" class="btn btn-danger btn-fw">
+                                            Remove
+                                        </button>
+                                    </td>
+                                }
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+                <div class="form-group">
+                    <label asp-for="Currency" id="currency-lable"></label>
+                    <select asp-for="Currency" id="currency" style="width:100%;" class="btn btn-info dropdown-toggle" type="button"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        @foreach (var currency in Model.AllCurrencies)
+                        {
+                            <option value="@currency.Iso">@currency.Iso</option>
+                        }
+                    </select>
+                    <span asp-validation-for="Currency" class="text-danger"></span>
+                </div>
+                <a class="btn btn-success" id="edit" style="min-width: 145px;" asp-action="CartSubmit" asp-controller="Cart"
+                   asp-route-iso="@Model.Currency">Next</a>
+            </div>
+        </div>
+    </div>
+</div>

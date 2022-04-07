@@ -3,6 +3,8 @@
 @inject SignInManager<MyArtPlaceUser> SignInManager
 @inject UserManager<MyArtPlaceUser> UserManager
 
+<link rel="stylesheet" href="~/css/my_css/partil_login.css">
+
 <ul class="navbar-nav">
     <li class="nav-item">
         <a class="nav-link mb-0 d-none d-sm-block navbar-profile-name" asp-action="Index" asp-controller="Home">Home</a>
@@ -24,8 +26,17 @@
                 <a class="nav-link mb-0 d-none d-sm-block navbar-profile-name" asp-action="ManageCurrencies" asp-controller="Currency">Manage Currencies</a>
             </li>
         }
-        <li class="nav-item">
+        <li class="nav-item" id="favorites">
             <a class="nav-link mb-0 d-none d-sm-block navbar-profile-name" asp-action="FavoritesProducts" asp-controller="Product">Favorites</a>
+        </li>
+        <li class="nav-item">
+             <img id="hart-navbar" src="~/corona_bootstrap/images/hart.png" />
+        </li>
+        <li class="nav-item" id ="cart-text">
+            <a class="nav-link mb-0 d-none d-sm-block navbar-profile-name" asp-action="UserCart" asp-controller="Cart">Cart</a>
+        </li>
+        <li class="nav-item">
+            <img id="cart" src="~/corona_bootstrap/images/shopping-cart.png" />
         </li>
         @if (User.IsInRole("Seller"))
         {

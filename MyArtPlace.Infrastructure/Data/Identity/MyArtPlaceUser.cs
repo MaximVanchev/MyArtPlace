@@ -16,7 +16,7 @@ public class MyArtPlaceUser : IdentityUser
     public MyArtPlaceUser()
     {
         LikedProducts = new List<Product>();
-        CartProducts = new List<UsersCart>();
+        CartProducts = new List<Cart>();
     }
 
     [StringLength(DatabaseConstants.Guid_Max_Length)]
@@ -30,6 +30,6 @@ public class MyArtPlaceUser : IdentityUser
 
     public IList<Product> LikedProducts { get; set; }
 
-    public IList<UsersCart> CartProducts { get; set; }
+    public IList<Cart> CartProducts { get; set; }
 }
 

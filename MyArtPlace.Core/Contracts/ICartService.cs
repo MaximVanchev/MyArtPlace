@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MyArtPlace.Core.Models.Cart;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,5 +10,17 @@ namespace MyArtPlace.Core.Contracts
     public interface ICartService
     {
         Task AddProductToCart(Guid productId, string userId);
+
+        Task RemoveProductFromCart(Guid cartId, string userId);
+
+        Task IncreaseProductCount(Guid cartId, string userId);
+
+        Task DecreaseProductCount(Guid cartId, string userId);
+
+        Task SubmitOrder(CartAddressSubmitViewModel model, string userId);
+
+        Task<CartListViewModel> GetUserCart(string userId);
+
+        Task<CartAddressSubmitViewModel> GetSubmitModel(string userId, string iso);
     }
 }

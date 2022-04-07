@@ -28,7 +28,7 @@
     <div class="row">
         <div class="col-12">
             <div class="card-body" id="products">
-                <h4 class="card-title" id="title">@ViewData["Title"]</h4>
+                @*<h4 class="card-title" id="title">@ViewData["Title"]</h4>*@
                 <div class="table-responsive">
                     @foreach (var product in Model)
                     {
@@ -57,6 +57,13 @@
                                                     {
                                                         <button type="submit" class="btn btn-danger" id="dislike" style="min-width: 145px; margin-left:5px;" asp-action="DislikeProduct"
                                                         asp-route-productId="@product.Id" asp-controller="Product">Dislike</button>
+                                                    }
+                                                    @using (Html.BeginForm("AddProductToCart", "Cart", FormMethod.Post))
+                                                    {
+                                                        <button type="submit" class="btn btn-warning" id="addcart" style="min-width: 145px; margin-left:77.5px;" asp-action="AddProductToCart"
+                                                        asp-route-productId="@product.Id" asp-controller="Cart">
+                                                            Add to cart
+                                                        </button>
                                                     }
                                                 </div>
                                             </div>

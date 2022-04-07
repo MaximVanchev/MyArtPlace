@@ -16,7 +16,7 @@
 {
     background-color: azure;
     border-radius:5%;
-    height: 450px;
+    height: 489px;
     width: 340px;
 }
 
@@ -58,6 +58,8 @@
 #title
 {
     margin:auto;
+    font: #ffffff;
+    position:center;
 }
 
 .card-body
@@ -134,4 +136,10 @@ body
     margin-top:5px;
     position:relative;
     float: left;
+}
+
+#addcart 
+{
+    margin-top: 10px;
+    
 }

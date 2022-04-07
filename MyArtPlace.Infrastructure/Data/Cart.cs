@@ -10,12 +10,13 @@ using System.Threading.Tasks;
 
 namespace MyArtPlace.Infrastructure.Data
 {
-    public class UsersCart
+    public class Cart
     {
-        public UsersCart()
+        public Cart()
         {
             OrderId = Guid.NewGuid();
             InCart = true;
+            ProductConut = 1;
         }
 
         [Key]

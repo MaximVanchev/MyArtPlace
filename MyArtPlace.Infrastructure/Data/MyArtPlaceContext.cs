@@ -18,7 +18,7 @@ public class MyArtPlaceContext : IdentityDbContext<MyArtPlaceUser>
         base.OnModelCreating(builder);
     }
 
-    public DbSet<UsersCart> UsersCarts { get; set; }
+    public DbSet<Cart> Carts { get; set; }
 
     public DbSet<Shop> Shops { get; set; }
 

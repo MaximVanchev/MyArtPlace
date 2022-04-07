@@ -15,7 +15,7 @@ namespace MyArtPlace.Infrastructure.Data
         public Product()
         {
             UsersLiked = new List<MyArtPlaceUser>();
-            UsersCarts = new List<UsersCart>();
+            UsersCarts = new List<Cart>();
         }
 
         [Key]
@@ -38,7 +38,7 @@ namespace MyArtPlace.Infrastructure.Data
 
         public IList<MyArtPlaceUser> UsersLiked { get; set; }
 
-        public IList<UsersCart> UsersCarts { get; set; }
+        public IList<Cart> UsersCarts { get; set; }
 
         [Required]
         [StringLength(DatabaseConstants.Guid_Max_Length)]
