@@ -1,4 +1,5 @@
 ﻿using MyArtPlace.Core.Models.Cart;
+using MyArtPlace.Infrastructure.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,5 +23,9 @@ namespace MyArtPlace.Core.Contracts
         Task<CartListViewModel> GetUserCart(string userId);
 
         Task<CartAddressSubmitViewModel> GetSubmitModel(string userId, string iso);
+
+        Task<IEnumerable<Currency>> GetAllCurrencies();
+
+        Task<decimal> GetTotalPrice(decimal BGNPrice, decimal USDPrice, decimal EURPrice, string iso);
     }
 }

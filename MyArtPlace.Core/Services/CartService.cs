@@ -16,14 +16,10 @@ namespace MyArtPlace.Core.Services
     public class CartService : ICartService
     {
         private readonly IApplicationDbRepository repo; 
-        private readonly IShopService shopService;
-        private readonly IMailService mailService;
 
-        public CartService(IApplicationDbRepository _repo, IShopService _shopService , IMailService _mailService)
+        public CartService(IApplicationDbRepository _repo)
         {
             repo = _repo;
-            shopService = _shopService;
-            mailService = _mailService;
         }
 
         public async Task AddProductToCart(Guid productId, string userId)
@@ -50,9 +46,12 @@ namespace MyArtPlace.Core.Services
 
                 throw new ArgumentException(MessageConstants.AddedProductAgainToCartErrorMessage);
             }
-            else if (user.Shop.Products.Contains(product))
+            else if (user.Shop != null)
             {
-                throw new ArgumentException(MessageConstants.UserOwnProductAddToCartErrorMessage);
+                if (user.Shop.Products.Contains(product))
+                {
+                    throw new ArgumentException(MessageConstants.UserOwnProductAddToCartErrorMessage);
+                }
             }
 
             cart = new Cart 
@@ -168,7 +167,7 @@ namespace MyArtPlace.Core.Services
                     ProductIso = p.Product.Shop.Currency.Iso,
                     ProductCount = p.ProductConut
                 }).ToList(),
-                AllCurrencies = await shopService.GetAllCurrencies()
+                AllCurrencies = await GetAllCurrencies()
             };
 
             return cartList;
@@ -217,7 +216,7 @@ namespace MyArtPlace.Core.Services
             };
         }
 
-        private async Task<decimal> GetTotalPrice(decimal BGNPrice , decimal USDPrice , decimal EURPrice , string iso)
+        public async Task<decimal> GetTotalPrice(decimal BGNPrice , decimal USDPrice , decimal EURPrice , string iso)
         {
             decimal totalPrice = 0;
 
@@ -241,6 +240,11 @@ namespace MyArtPlace.Core.Services
             }
 
             return Math.Round(totalPrice , 2);
+        }
+
+        public async Task<IEnumerable<Currency>> GetAllCurrencies()
+        {
+            return await repo.All<Currency>().ToListAsync();
         }
     }
 }
