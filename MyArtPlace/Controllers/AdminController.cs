@@ -7,7 +7,6 @@ using MyArtPlace.Core.Constants;
 using MyArtPlace.Core.Contracts;
 using MyArtPlace.Core.Models.Admin;
 using MyArtPlace.Core.Models.Common;
-using MyArtPlace.Core.Services;
 
 namespace MyArtPlace.Controllers
 {
@@ -45,7 +44,7 @@ namespace MyArtPlace.Controllers
                 Name = model.Name
             });
 
-            MessageViewModel.Message.Add(MessageConstants.SuccessMessage, "Successful created role!");
+            MessageViewModel.Message.Add(MessageConstants.SuccessMessage, MessageConstants.SuccessfulCreatedRoleMessage);
 
             return Redirect("/");
         }
@@ -95,7 +94,7 @@ namespace MyArtPlace.Controllers
                 await userManager.AddToRolesAsync(user, model.RoleNames);
             }
 
-            MessageViewModel.Message.Add(MessageConstants.SuccessMessage, "Successful saved changes!");
+            MessageViewModel.Message.Add(MessageConstants.SuccessMessage, MessageConstants.SuccessfulSavedChanges);
 
             return RedirectToAction(nameof(ManageUsers));
         }

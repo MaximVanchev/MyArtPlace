@@ -47,11 +47,11 @@ namespace MyArtPlace.Controllers
 
             if (await categoryService.AddCategory(model))
             {
-                MessageViewModel.Message.Add(MessageConstants.SuccessMessage, "Succsessful added category!");
+                MessageViewModel.Message.Add(MessageConstants.SuccessMessage, MessageConstants.SuccsessfulAddedCategoryMessage);
             }
             else
             {
-                MessageViewModel.Message.Add(MessageConstants.ErrorMessage, "There was an error!");
+                MessageViewModel.Message.Add(MessageConstants.ErrorMessage, MessageConstants.ThereWasErrorMessage);
             }
 
             return RedirectToAction(nameof(ManageCategories));
@@ -63,11 +63,11 @@ namespace MyArtPlace.Controllers
 
             if (await categoryService.DeleteCategoryById(id))
             {
-                MessageViewModel.Message.Add(MessageConstants.SuccessMessage, "Succsessful deleted category!");
+                MessageViewModel.Message.Add(MessageConstants.SuccessMessage, MessageConstants.SuccsessfulDeletedCategoryMessage);
             }
             else
             {
-                MessageViewModel.Message.Add(MessageConstants.ErrorMessage, "There was an error!");
+                MessageViewModel.Message.Add(MessageConstants.ErrorMessage, MessageConstants.ThereWasErrorMessage);
             }
 
             return RedirectToAction(nameof(ManageCategories), ViewData);

@@ -45,11 +45,11 @@ namespace MyArtPlace.Controllers
 
             if (await currencyService.AddCurrency(model))
             {
-                MessageViewModel.Message.Add(MessageConstants.SuccessMessage, "Successful added currency!");
+                MessageViewModel.Message.Add(MessageConstants.SuccessMessage, MessageConstants.SuccsessfulAddedCurrencyMessage);
             }
             else
             {
-                MessageViewModel.Message.Add(MessageConstants.ErrorMessage, "There was an error!");
+                MessageViewModel.Message.Add(MessageConstants.ErrorMessage, MessageConstants.ThereWasErrorMessage);
             }
 
             return RedirectToAction(nameof(ManageCurrencies));
@@ -60,11 +60,11 @@ namespace MyArtPlace.Controllers
         {
             if (await currencyService.DeleteCurrencyById(id))
             {
-                MessageViewModel.Message.Add(MessageConstants.SuccessMessage, "Successful deleted currency!");
+                MessageViewModel.Message.Add(MessageConstants.SuccessMessage, MessageConstants.SuccsessfulDeletedCurrencyMessage);
             }
             else
             {
-                MessageViewModel.Message.Add(MessageConstants.ErrorMessage, "There was an error!");
+                MessageViewModel.Message.Add(MessageConstants.ErrorMessage, MessageConstants.ThereWasErrorMessage);
             }
 
             return RedirectToAction(nameof(ManageCurrencies));

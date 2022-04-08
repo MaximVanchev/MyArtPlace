@@ -29,7 +29,7 @@ namespace MyArtPlace.Controllers
             }
             catch (Exception)
             {
-                MessageViewModel.Message.Add(MessageConstants.ErrorMessage, "There was an error!");
+                MessageViewModel.Message.Add(MessageConstants.ErrorMessage, MessageConstants.ThereWasErrorMessage);
             }
 
             return Redirect("/");
@@ -49,7 +49,7 @@ namespace MyArtPlace.Controllers
             }
             catch (Exception)
             {
-                MessageViewModel.Message.Add(MessageConstants.ErrorMessage, "There was an error!");
+                MessageViewModel.Message.Add(MessageConstants.ErrorMessage, MessageConstants.ThereWasErrorMessage);
             }
 
             return RedirectToAction(nameof(UserCart));
@@ -70,7 +70,7 @@ namespace MyArtPlace.Controllers
             }
             catch (Exception)
             {
-                MessageViewModel.Message.Add(MessageConstants.ErrorMessage, "There was an error!");
+                MessageViewModel.Message.Add(MessageConstants.ErrorMessage, MessageConstants.ThereWasErrorMessage);
             }
 
             return Redirect("/");
@@ -87,7 +87,7 @@ namespace MyArtPlace.Controllers
             try
             {
                 await cartService.SubmitOrder(model, User.FindFirstValue(ClaimTypes.NameIdentifier));
-                MessageViewModel.Message.Add(MessageConstants.SuccessMessage, "Successful submitted order!");
+                MessageViewModel.Message.Add(MessageConstants.SuccessMessage, MessageConstants.SuccessfulSubmittedOrderMessage);
             }
             catch (ArgumentException aex)
             {
@@ -95,7 +95,7 @@ namespace MyArtPlace.Controllers
             }
             catch (Exception ex)
             {
-                MessageViewModel.Message.Add(MessageConstants.ErrorMessage, "There was an error!");
+                MessageViewModel.Message.Add(MessageConstants.ErrorMessage, MessageConstants.ThereWasErrorMessage);
             }
             return Redirect("/");
         }
@@ -106,7 +106,7 @@ namespace MyArtPlace.Controllers
             try
             {
                 await cartService.AddProductToCart(productId, User.FindFirstValue(ClaimTypes.NameIdentifier));
-                MessageViewModel.Message.Add(MessageConstants.SuccessMessage, "Successful added product to cart!");
+                MessageViewModel.Message.Add(MessageConstants.SuccessMessage, MessageConstants.SuccessfulAddedProductToCartMessage);
             }
             catch (ArgumentException aex)
             {
@@ -114,7 +114,7 @@ namespace MyArtPlace.Controllers
             }
             catch (Exception)
             {
-                MessageViewModel.Message.Add(MessageConstants.ErrorMessage, "There was an error!");
+                MessageViewModel.Message.Add(MessageConstants.ErrorMessage, MessageConstants.ThereWasErrorMessage);
             }
 
             return Redirect("/");
@@ -126,7 +126,7 @@ namespace MyArtPlace.Controllers
             try
             {
                 await cartService.RemoveProductFromCart(cartId, User.FindFirstValue(ClaimTypes.NameIdentifier));
-                MessageViewModel.Message.Add(MessageConstants.SuccessMessage, "Successful removed product from cart!");
+                MessageViewModel.Message.Add(MessageConstants.SuccessMessage, MessageConstants.SuccessfulRemovedProductFromCartMessage);
             }
             catch (ArgumentException aex)
             {
@@ -134,7 +134,7 @@ namespace MyArtPlace.Controllers
             }
             catch (Exception)
             {
-                MessageViewModel.Message.Add(MessageConstants.ErrorMessage, "There was an error!");
+                MessageViewModel.Message.Add(MessageConstants.ErrorMessage, MessageConstants.ThereWasErrorMessage);
             }
 
             return RedirectToAction(nameof(UserCart));
@@ -153,7 +153,7 @@ namespace MyArtPlace.Controllers
             }
             catch (Exception)
             {
-                MessageViewModel.Message.Add(MessageConstants.ErrorMessage, "There was an error!");
+                MessageViewModel.Message.Add(MessageConstants.ErrorMessage, MessageConstants.ThereWasErrorMessage);
             }
 
             return RedirectToAction(nameof(UserCart));
@@ -172,7 +172,7 @@ namespace MyArtPlace.Controllers
             }
             catch (Exception)
             {
-                MessageViewModel.Message.Add(MessageConstants.ErrorMessage, "There was an error!");
+                MessageViewModel.Message.Add(MessageConstants.ErrorMessage, MessageConstants.ThereWasErrorMessage);
             }
 
             return RedirectToAction(nameof(UserCart));

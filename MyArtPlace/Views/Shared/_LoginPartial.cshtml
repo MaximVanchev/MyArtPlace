@@ -1,7 +1,5 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @using MyArtPlace.Areas.Identity.Data
-@inject SignInManager<MyArtPlaceUser> SignInManager
-@inject UserManager<MyArtPlaceUser> UserManager
 
 <link rel="stylesheet" href="~/css/my_css/partil_login.css">
 
@@ -9,7 +7,7 @@
     <li class="nav-item">
         <a class="nav-link mb-0 d-none d-sm-block navbar-profile-name" asp-action="Index" asp-controller="Home">Home</a>
     </li>
-    @if (SignInManager.IsSignedIn(User))
+    @if (User.Identity?.IsAuthenticated ?? false)
     {
         @if (User.IsInRole("Admin"))
         {

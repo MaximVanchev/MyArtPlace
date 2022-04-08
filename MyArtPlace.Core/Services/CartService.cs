@@ -40,11 +40,19 @@ namespace MyArtPlace.Core.Services
 
             if (cart != null)
             {
-                throw new ArgumentException("You already added this product to your cart!");
+                if (cart.InCart == false)
+                {
+                    cart.InCart = true;
+                    cart.ProductConut = 1;
+                    await repo.SaveChangesAsync();
+                    return;
+                }
+
+                throw new ArgumentException(MessageConstants.AddedProductAgainToCartErrorMessage);
             }
             else if (user.Shop.Products.Contains(product))
             {
-                throw new ArgumentException("You can't add your product to cart!");
+                throw new ArgumentException(MessageConstants.UserOwnProductAddToCartErrorMessage);
             }
 
             cart = new Cart 
@@ -64,7 +72,7 @@ namespace MyArtPlace.Core.Services
 
             if (cart == null)
             {
-                throw new ArgumentException("There is no product to remove!");
+                throw new ArgumentException(MessageConstants.NoProductToRemoveErrorMessage);
             }
 
             await repo.DeleteAsync<Cart>(cart.OrderId);
@@ -78,11 +86,11 @@ namespace MyArtPlace.Core.Services
 
             if (cart == null)
             {
-                throw new ArgumentException("There is no product to increase!");
+                throw new ArgumentException(MessageConstants.NoProductToIncreaseErrorMessage);
             }
             else if (cart.ProductConut == 10)
             {
-                throw new ArgumentException("You can't buy more than 10 at a time!");
+                throw new ArgumentException(MessageConstants.CantBuyMoreThanTenErrorMessage);
             }
 
             cart.ProductConut++;
@@ -96,11 +104,11 @@ namespace MyArtPlace.Core.Services
 
             if (cart == null)
             {
-                throw new ArgumentException("There is no product to decrease!");
+                throw new ArgumentException(MessageConstants.NoProductToDecreaseErrorMessage);
             }
             else if (cart.ProductConut == 1)
             {
-                throw new ArgumentException("You can't buy less then 1!");
+                throw new ArgumentException(MessageConstants.CantBuyLessThanOneErrorMessage);
             }
 
             cart.ProductConut--;
@@ -177,7 +185,7 @@ namespace MyArtPlace.Core.Services
 
             if (user.CartProducts.Count() == 0)
             {
-                throw new ArgumentException("You dont have products in the cart!");
+                throw new ArgumentException(MessageConstants.NoProductsInTheCartSubmitErrorMessage);
             }
 
             decimal BGNPrice = 0;

@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MyArtPlace.Areas.Identity.Data;
+using MyArtPlace.Core.Constants;
 using MyArtPlace.Core.Contracts;
 using MyArtPlace.Core.Models.Product;
 using MyArtPlace.Infrastructure.Data;
@@ -90,7 +91,7 @@ namespace MyArtPlace.Core.Services
 
             if (product.Shop.User.Id != userId)
             {
-                throw new ArgumentException("User don't have this product");
+                throw new ArgumentException(MessageConstants.UserDontHaveProductForEditErrorMessage);
             }
 
             return new ProductEditViewModel()
@@ -158,7 +159,7 @@ namespace MyArtPlace.Core.Services
 
             if (!user.Shop.Products.Contains(product))
             {
-                throw new ArgumentException("You dont have permission to delete this product!");
+                throw new ArgumentException(MessageConstants.DontHavePermissionToDelete);
             }
 
             await repo.DeleteAsync<Product>(product.Id);
@@ -174,7 +175,7 @@ namespace MyArtPlace.Core.Services
 
             if (user.Shop.Products.Contains(product))
             {
-                throw new ArgumentException("You can't like your product!");
+                throw new ArgumentException(MessageConstants.CantLikeYourProductErrorMessage);
             }
 
             user.LikedProducts.Add(product);
@@ -194,7 +195,7 @@ namespace MyArtPlace.Core.Services
 
             if (user.Shop.Products.Contains(product))
             {
-                throw new ArgumentException("You can't dislike your product!");
+                throw new ArgumentException(MessageConstants.CantDislikeYourProductErrorMessage);
             }
 
             user.LikedProducts.Remove(product);

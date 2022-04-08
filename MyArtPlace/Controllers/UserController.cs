@@ -32,7 +32,7 @@ namespace MyArtPlace.Controllers
             }
             catch (Exception)
             {
-                MessageViewModel.Message.Add(MessageConstants.ErrorMessage, "There was an error!");
+                MessageViewModel.Message.Add(MessageConstants.ErrorMessage, MessageConstants.ThereWasErrorMessage);
                 return Redirect("/");
             }
         }
@@ -48,7 +48,7 @@ namespace MyArtPlace.Controllers
             try
             {
                 await userService.EditUser(model);
-                MessageViewModel.Message.Add(MessageConstants.SuccessMessage, "Successful saved changes!");
+                MessageViewModel.Message.Add(MessageConstants.SuccessMessage, MessageConstants.SuccessfulSavedChanges);
             }
             catch (ArgumentException aex)
             {
@@ -56,7 +56,7 @@ namespace MyArtPlace.Controllers
             }
             catch (Exception)
             {
-                MessageViewModel.Message.Add(MessageConstants.ErrorMessage, "There was an error!");
+                MessageViewModel.Message.Add(MessageConstants.ErrorMessage, MessageConstants.ThereWasErrorMessage);
             }
 
             return Redirect("/");

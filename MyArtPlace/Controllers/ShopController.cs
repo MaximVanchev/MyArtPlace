@@ -14,10 +14,12 @@ namespace MyArtPlace.Controllers
     public class ShopController : BaseController
     {
         private readonly IShopService shopService;
+        private readonly SignInManager<MyArtPlaceUser> signInManager;
 
-        public ShopController(IShopService _shopService)
+        public ShopController(IShopService _shopService , SignInManager<MyArtPlaceUser> _signInManager)
         {
             shopService = _shopService;
+            signInManager = _signInManager;
         }
 
         public async Task<IActionResult> CreateShop()
@@ -42,11 +44,12 @@ namespace MyArtPlace.Controllers
             try
             {
                 await shopService.CreateShop(model, User.FindFirstValue(ClaimTypes.NameIdentifier));
-                MessageViewModel.Message.Add(MessageConstants.SuccessMessage, "Succsessful created Shop!");
+                MessageViewModel.Message.Add(MessageConstants.SuccessMessage, MessageConstants.SuccsessfulCreatedShopMessage);
+                await signInManager.SignOutAsync();
             }
             catch (Exception)
             {
-                MessageViewModel.Message.Add(MessageConstants.ErrorMessage, "There was an error!");
+                MessageViewModel.Message.Add(MessageConstants.ErrorMessage, MessageConstants.ThereWasErrorMessage);
             }
 
             return Redirect("/");
@@ -67,7 +70,7 @@ namespace MyArtPlace.Controllers
             }
             catch (Exception)
             {
-                MessageViewModel.Message.Add(MessageConstants.ErrorMessage, "There was an error!");
+                MessageViewModel.Message.Add(MessageConstants.ErrorMessage, MessageConstants.ThereWasErrorMessage);
                 return Redirect("/");
             }
         }
@@ -84,11 +87,11 @@ namespace MyArtPlace.Controllers
             try
             {
                 await shopService.EditShop(model ,User.FindFirstValue(ClaimTypes.NameIdentifier));
-                MessageViewModel.Message.Add(MessageConstants.SuccessMessage, "Successful saved changes!");
+                MessageViewModel.Message.Add(MessageConstants.SuccessMessage, MessageConstants.SuccessfulSavedChanges);
             }
             catch (Exception)
             {
-                MessageViewModel.Message.Add(MessageConstants.ErrorMessage, "There was an error!");
+                MessageViewModel.Message.Add(MessageConstants.ErrorMessage, MessageConstants.ThereWasErrorMessage);
             }
 
             return Redirect("/");
