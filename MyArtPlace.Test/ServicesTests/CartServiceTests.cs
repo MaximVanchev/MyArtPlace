@@ -309,7 +309,6 @@ namespace MyArtPlace.Test.ServicesTests
         public void WhenGetAllCurrenciesShouldReturnThemCorrect()
         {
             var service = serviceProvider.GetService<ICartService>();
-            string iso = "BGN";
             var allCurrencies = new List<Currency>();
 
             allCurrencies.Add(userOne.Shop.Currency);

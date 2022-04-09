@@ -35,11 +35,19 @@ namespace MyArtPlace.Core.Services
                 Price = model.Price
             };
 
-            using (var memoryStream = new MemoryStream())
+            if (model.Image == null)
             {
-                await model.Image.CopyToAsync(memoryStream);
+                throw new ArgumentException(MessageConstants.ImageIsNullErrorMessage);
+            }
 
-                product.Image = memoryStream.ToArray();
+            if (model.ImageByteArray == null)
+            {
+                using (var memoryStream = new MemoryStream())
+                {
+                    await model.Image.CopyToAsync(memoryStream);
+
+                    product.Image = memoryStream.ToArray();
+                }
             }
 
             await repo.AddAsync(product);

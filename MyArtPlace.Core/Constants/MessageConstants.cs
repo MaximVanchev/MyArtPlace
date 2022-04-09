@@ -67,5 +67,7 @@ namespace MyArtPlace.Core.Constants
         public const string SuccessfulDeletedProductMessage = "Successful deleted product!";
 
         public const string SuccsessfulCreatedShopMessage = "Succsessful created Shop!";
+
+        public const string ImageIsNullErrorMessage = "You can't add product without image!";
     }
 }

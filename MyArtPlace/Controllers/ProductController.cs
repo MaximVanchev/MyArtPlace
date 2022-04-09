@@ -57,8 +57,13 @@ namespace MyArtPlace.Controllers
 
             try
             {
+                model.ImageByteArray = null;
                 await productService.AddProduct(model, User.FindFirstValue(ClaimTypes.NameIdentifier));
                 MessageViewModel.Message.Add(MessageConstants.SuccessMessage, MessageConstants.SuccessfulCreatedProductMessage);
+            }
+            catch (ArgumentException aex)
+            {
+                MessageViewModel.Message.Add(MessageConstants.ErrorMessage, aex.Message);
             }
             catch (Exception)
             {
