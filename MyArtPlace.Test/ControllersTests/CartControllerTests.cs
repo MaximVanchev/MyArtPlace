@@ -21,6 +21,7 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Http;
 using MyArtPlace.Core.Models.Cart;
 using MyArtPlace.Core.Constants;
+using MyArtPlace.Core.Models.Common;
 
 namespace MyArtPlace.Test.ControllersTests
 {
@@ -112,7 +113,22 @@ namespace MyArtPlace.Test.ControllersTests
         }
 
         [Test]
-        public void WhenPostCartSubmitShouldRedirectToIndex()
+        public void WhenPostCartSubmitShouldRedirectToIndexAndSubmitOrder()
+        {
+            var model = new CartAddressSubmitViewModel()
+            {
+                Currency = "BGN",
+                OrederAddress = "Bulgaria",
+                TotalPrice = 100
+            };
+
+            var result = cartControllerUserTwo.CartSubmit(model).Result as RedirectResult;
+            Assert.True(userTwo.CartProducts.First().InCart == false);
+            Assert.AreEqual(result.Url, "/");
+        }
+
+        [Test]
+        public void WhenPostCartSubmitAndThereIsErrorShouldRedirectToIndexr()
         {
             var model = new CartAddressSubmitViewModel()
             {
@@ -161,20 +177,52 @@ namespace MyArtPlace.Test.ControllersTests
         }
 
         [Test]
-        public void WhenPostAddProductToCartShouldRedirectToIndex()
+        public void WhenPostAddProductToCartShouldRedirectToIndexAndAddProduct()
         {
-            var product = userOne.Shop.Products.First();
+            var product = userOne.Shop.Products.Last();
 
             var result = cartControllerUserTwo.AddProductToCart(product.Id).Result as RedirectResult;
+            Assert.True(userTwo.CartProducts.Count() == 2);
             Assert.AreEqual(result.Url, "/");
         }
 
         [Test]
-        public void WhenPostRemoveProductFromCartShouldRedirectToAction()
+        public void WhenPostAddProductToCartAndThereIsErrorShouldAddErrorMessage()
         {
-            var product = userOne.Shop.Products.First();
+            var product = userOne.Shop.Products.Last();
 
-            var result = cartControllerUserTwo.RemoveProductFromCart(product.Id).Result as RedirectToActionResult;
+            var result = cartControllerUserOne.AddProductToCart(product.Id).Result as RedirectResult;
+            Assert.True(MessageViewModel.Message[MessageConstants.ErrorMessage] != null);
+            Assert.AreEqual(result.Url, "/");
+        }
+
+        [Test]
+        public void WhenPostAddProductToCartAndThereIsArgumentExShouldAddArgumentExMessage()
+        {
+            var product = userTwo.Shop.Products.First();
+
+            var result = cartControllerUserTwo.AddProductToCart(product.Id).Result as RedirectResult;
+            Assert.True(MessageViewModel.Message[MessageConstants.ErrorMessage] == MessageConstants.UserOwnProductAddToCartErrorMessage);
+            Assert.AreEqual(result.Url, "/");
+        }
+
+        [Test]
+        public void WhenPostRemoveProductFromCartShouldRedirectToActionAndRemoveProduct()
+        {
+            var cart = userTwo.CartProducts.First();
+
+            var result = cartControllerUserTwo.RemoveProductFromCart(cart.OrderId).Result as RedirectToActionResult;
+            Assert.True(userTwo.CartProducts.Count() == 0);
+            Assert.AreEqual(result.ActionName, nameof(cartControllerUserOne.UserCart));
+        }
+
+        [Test]
+        public void WhenPostRemoveProductFromCartAndThereIsErrorShouldAddErrorMessage()
+        {
+            var product = userOne.Shop.Products.Last();
+
+            var result = cartControllerUserOne.RemoveProductFromCart(product.Id).Result as RedirectToActionResult;
+            Assert.True(MessageViewModel.Message[MessageConstants.ErrorMessage] != null);
             Assert.AreEqual(result.ActionName, nameof(cartControllerUserOne.UserCart));
         }
 
@@ -212,6 +260,16 @@ namespace MyArtPlace.Test.ControllersTests
                             },
                             Image = new byte[20],
                             Price = 30
+                        },
+                        new Product()
+                        {
+                            Name = "Kon",
+                            Category = new Category()
+                            {
+                                Name = "Kone"
+                            },
+                            Image = new byte[20],
+                            Price = 30
                         }
                     }
                 }
@@ -227,7 +285,28 @@ namespace MyArtPlace.Test.ControllersTests
                 {
                     new Cart()
                     {
-                        Product = userOne.Shop.Products.First()
+                        Product = userOne.Shop.Products.First(x => x.Name == "Kotka")
+                    }
+                },
+                Shop = new Shop()
+                {
+                    Name = "IvoShop",
+                    Currency = new Currency()
+                    {
+                        Iso = "USD"
+                    },
+                    Products = new List<Product>()
+                    {
+                        new Product()
+                        {
+                            Name = "Mishka",
+                            Category = new Category()
+                            {
+                                Name = "Mishki"
+                            },
+                            Image = new byte[20],
+                            Price = 30
+                        }
                     }
                 }
             };
