@@ -71,7 +71,7 @@ namespace MyArtPlace.Controllers
 
             ViewBag.RoleItem = roleManager.Roles
                 .ToList()
-                .Select(r => new SelectListItem
+                .Select(async r => new SelectListItem
                 {
                     Text = r.Name,
                     Value = r.Name,

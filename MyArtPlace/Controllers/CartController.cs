@@ -93,7 +93,7 @@ namespace MyArtPlace.Controllers
             {
                 MessageViewModel.Message.Add(MessageConstants.ErrorMessage, aex.Message);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 MessageViewModel.Message.Add(MessageConstants.ErrorMessage, MessageConstants.ThereWasErrorMessage);
             }

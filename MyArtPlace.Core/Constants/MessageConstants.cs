@@ -69,5 +69,7 @@ namespace MyArtPlace.Core.Constants
         public const string SuccsessfulCreatedShopMessage = "Succsessful created Shop!";
 
         public const string ImageIsNullErrorMessage = "You can't add product without image!";
+
+        public const string TestIncorrectTypeReturned = "Didn't return correct type!";
     }
 }

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using MyArtPlace.Core.Constants;
 using MyArtPlace.Core.Contracts;
 using MyArtPlace.Core.Models.Common;
@@ -10,12 +11,10 @@ namespace MyArtPlace.Controllers
 {
     public class HomeController : BaseController
     {
-        private readonly ILogger<HomeController> _logger;
         private readonly IProductService productService;
 
-        public HomeController(ILogger<HomeController> logger , IProductService _productService)
+        public HomeController(IProductService _productService)
         {
-            _logger = logger;
             productService = _productService;
         }
 
@@ -35,9 +34,10 @@ namespace MyArtPlace.Controllers
             }
         }
 
-        public async Task<IActionResult> Privacy()
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> Test()
         {
-            await CheckMessages();
+            CheckMessages();
 
             return View();
         }
