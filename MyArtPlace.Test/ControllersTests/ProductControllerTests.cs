@@ -49,6 +49,8 @@ namespace MyArtPlace.Test.ControllersTests
             var repo = serviceProvider.GetService<IApplicationDbRepository>();
 
             await SeedDbAsync(repo);
+
+            productControllerUserTwo.CheckMessages();
         }
 
         [Test]
@@ -85,6 +87,226 @@ namespace MyArtPlace.Test.ControllersTests
             var result = productControllerUserTwo.CreateProduct(model).Result as ViewResult;
             Assert.NotNull(result);
             model.Should().BeEquivalentTo(result.Model);
+        }
+
+        [Test]
+        public void WhenGetMyProductsShouldReturnViewWithProducts()
+        {
+            var result = productControllerUserTwo.MyProducts().Result as ViewResult;
+            Assert.NotNull(result);
+            result.Model.ShouldBe<IEnumerable<ProductListViewModel>>(MessageConstants.TestIncorrectTypeReturned);
+            Assert.True(((IEnumerable<ProductListViewModel>)result.Model).Count() == 1);
+        }
+
+        [Test]
+        public void WhenGetMyProductsAndThereIsErrorShouldRedirectToIndexAndAddMessage()
+        {
+            var result = productControllerUserOne.MyProducts().Result as RedirectResult;
+            Assert.NotNull(result);
+            Assert.AreEqual(MessageViewModel.Message[MessageConstants.ErrorMessage], MessageConstants.ThereWasErrorMessage);
+        }
+
+        [Test]
+        public void WhenGetEditProductShouldReturnViewWithProduct()
+        {
+            var product = userTwo.Shop.Products.First();
+
+            var result = productControllerUserTwo.EditProduct(product.Id).Result as ViewResult;
+            Assert.NotNull(result);
+            result.Model.ShouldBe<ProductEditViewModel>(MessageConstants.TestIncorrectTypeReturned);
+        }
+
+        [Test]
+        public void WhenGetEditProductAndThereIsErrorShouldRedirectToIndexAndAddMessage()
+        {
+            var product = userTwo.Shop.Products.First();
+
+            var result = productControllerUserTwo.EditProduct(Guid.NewGuid()).Result as RedirectToActionResult;
+            Assert.AreEqual(result.ActionName, nameof(productControllerUserOne.MyProducts));
+            Assert.AreEqual(MessageViewModel.Message[MessageConstants.ErrorMessage], MessageConstants.ThereWasErrorMessage);
+        }
+
+        [Test]
+        public void WhenGetEditProductAndThereIsArgumentExShouldRedirectToIndexAndAddMessage()
+        {
+            var product = userOne.Shop.Products.First();
+
+            var result = productControllerUserTwo.EditProduct(product.Id).Result as RedirectToActionResult;
+            Assert.AreEqual(result.ActionName, nameof(productControllerUserOne.MyProducts));
+            Assert.AreEqual(MessageViewModel.Message[MessageConstants.ErrorMessage], MessageConstants.UserDontHaveProductForEditErrorMessage);
+        }
+
+        [Test]
+        public void WhenPostEditProductAndModelStateIsNotValidShouldReturnView()
+        {
+            var model = new ProductEditViewModel();
+
+            productControllerUserTwo.ModelState.AddModelError("error", "error message");
+
+            var result = productControllerUserTwo.EditProduct(model).Result as ViewResult;
+            Assert.NotNull(result);
+        }
+
+        [Test]
+        public void WhenPostEditProductShouldRedirectToAction()
+        {
+            var product = userTwo.Shop.Products.First();
+
+            var model = new ProductEditViewModel()
+            {
+                Name = "Name",
+                Category = "Kone",
+                Description = "fsadgsa",
+                Price = 100,
+                Id = product.Id,
+            };
+
+            var result = productControllerUserTwo.EditProduct(model).Result as RedirectToActionResult;
+            Assert.AreEqual(product.Name, model.Name);
+            Assert.AreEqual(product.Description, model.Description);
+            Assert.AreEqual(product.Price, model.Price);
+            Assert.AreEqual(product.Category.Name, model.Category);
+            Assert.AreEqual(result.ActionName, nameof(productControllerUserTwo.MyProducts));
+        }
+
+        [Test]
+        public void WhenGetDeleteProductQuestionShouldReturnView()
+        {
+            var product = userOne.Shop.Products.First();
+
+            var result = productControllerUserTwo.DeleteProductQuestion(product.Id).Result as ViewResult;
+            Assert.AreEqual(result.ViewData["ProductId"], product.Id);
+            Assert.NotNull(result);
+        }
+
+        [Test]
+        public void WhenPostDeleteProductShouldRedirectToActionAndDelete()
+        {
+            var product = userTwo.Shop.Products.First();
+
+            var result = productControllerUserTwo.DeleteProduct(product.Id).Result as RedirectToActionResult;
+            Assert.AreEqual(result.ActionName, nameof(productControllerUserOne.MyProducts));
+            Assert.AreEqual(MessageViewModel.Message[MessageConstants.SuccessMessage] , MessageConstants.SuccessfulDeletedProductMessage);
+            Assert.True(userTwo.Shop.Products.Count == 0);
+        }
+
+        [Test]
+        public void WhenPostDeleteProductAndThereIsErrorShouldRedirectToActionAndAddMessage()
+        {
+            var product = userTwo.Shop.Products.First();
+
+            var result = productControllerUserOne.DeleteProduct(product.Id).Result as RedirectToActionResult;
+            Assert.AreEqual(result.ActionName, nameof(productControllerUserOne.MyProducts));
+            Assert.NotNull(MessageViewModel.Message[MessageConstants.ErrorMessage]);
+        }
+
+        [Test]
+        public void WhenPostDeleteProductAndThereIsArgumentErrorShouldRedirectToActionAndAddMessage()
+        {
+            var product = userOne.Shop.Products.First();
+
+            var result = productControllerUserTwo.DeleteProduct(product.Id).Result as RedirectToActionResult;
+            Assert.AreEqual(result.ActionName, nameof(productControllerUserOne.MyProducts));
+            Assert.AreEqual(MessageViewModel.Message[MessageConstants.ErrorMessage] , MessageConstants.DontHavePermissionToDelete);
+        }
+
+        [Test]
+        public void WhenPostLikeProductShouldRedirectToIndexAndLike()
+        {
+            var product = userOne.Shop.Products.First();
+
+            var result = productControllerUserTwo.LikeProduct(product.Id).Result as RedirectResult;
+            Assert.AreEqual(result.Url, "/");
+            Assert.AreEqual(MessageViewModel.Message[MessageConstants.SuccessMessage] , MessageConstants.SuccsessfulLikeMessage);
+            Assert.True(userTwo.LikedProducts.Count == 1);
+        }
+
+        [Test]
+        public void WhenPostLikeProductAndThereIsErrorShouldRedirectToIndexAndAddMessage()
+        {
+            var product = userTwo.Shop.Products.First();
+
+            var result = productControllerUserOne.LikeProduct(product.Id).Result as RedirectResult;
+            Assert.AreEqual(result.Url, "/");
+            Assert.NotNull(MessageViewModel.Message[MessageConstants.ErrorMessage]);
+        }
+
+        [Test]
+        public void WhenPostLikeProductAndThereIsArgumentErrorShouldRedirectToIndexAndMessage()
+        {
+            var product = userTwo.Shop.Products.First();
+
+            var result = productControllerUserTwo.LikeProduct(product.Id).Result as RedirectResult;
+            Assert.AreEqual(result.Url, "/");
+            Assert.AreEqual(MessageViewModel.Message[MessageConstants.ErrorMessage], MessageConstants.CantLikeYourProductErrorMessage);
+        }
+
+        [Test]
+        public void WhenPostDislikeProductShouldRedirectToActionAndDislike()
+        {
+            var product = userOne.Shop.Products.First();
+
+            productControllerUserTwo.LikeProduct(product.Id);
+
+            productControllerUserTwo.CheckMessages();
+
+            var result = productControllerUserTwo.DislikeProduct(product.Id).Result as RedirectToActionResult;
+            Assert.AreEqual(result.ActionName , nameof(productControllerUserOne.FavoritesProducts));
+            Assert.AreEqual(MessageViewModel.Message[MessageConstants.SuccessMessage], MessageConstants.SuccsessfulDislikeMessage);
+            Assert.True(userTwo.LikedProducts.Count == 0);
+        }
+
+        [Test]
+        public void WhenPostDilikeProductAndThereIsErrorShouldRedirectToActionAndAddMessage()
+        {
+            var product = userTwo.Shop.Products.First();
+
+            var result = productControllerUserOne.DislikeProduct(product.Id).Result as RedirectToActionResult;
+            Assert.AreEqual(result.ActionName, nameof(productControllerUserOne.FavoritesProducts));
+            Assert.NotNull(MessageViewModel.Message[MessageConstants.ErrorMessage]);
+        }
+
+        [Test]
+        public void WhenPostDislikeProductAndThereIsArgumentErrorShouldRedirectToActionAndMessage()
+        {
+            var product = userTwo.Shop.Products.First();
+
+            var result = productControllerUserTwo.DislikeProduct(product.Id).Result as RedirectToActionResult;
+            Assert.AreEqual(result.ActionName, nameof(productControllerUserOne.FavoritesProducts));
+            Assert.AreEqual(MessageViewModel.Message[MessageConstants.ErrorMessage], MessageConstants.CantDislikeYourProductErrorMessage);
+        }
+
+        [Test]
+        public void WhenGetProductDetailsShouldReturnView()
+        {
+            var product = userTwo.Shop.Products.First();
+
+            var result = productControllerUserTwo.ProductDetails(product.Id).Result as ViewResult;
+            Assert.IsNotNull(result);
+            result.Model.ShouldBe<ProductDetailsViewModel>(MessageConstants.TestIncorrectTypeReturned);
+        }
+
+        [Test]
+        public void WhenGetProductDetailsAndThereIsErrorShouldRedirectToIndexAndAddMessage()
+        {
+            var result = productControllerUserOne.ProductDetails(Guid.NewGuid()).Result as RedirectResult;
+            Assert.AreEqual(result.Url , "/");
+            Assert.NotNull(MessageViewModel.Message[MessageConstants.ErrorMessage]);
+        }
+
+        [Test]
+        public void WhenGetFavoritesProductsShouldReturnView()
+        {
+            var product = userOne.Shop.Products.First();
+
+            productControllerUserTwo.LikeProduct(product.Id);
+
+            productControllerUserTwo.CheckMessages();
+
+            var result = productControllerUserTwo.FavoritesProducts().Result as ViewResult;
+            Assert.IsNotNull(result);
+            result.Model.ShouldBe<IEnumerable<ProductListViewModel>>(MessageConstants.TestIncorrectTypeReturned);
+            Assert.True(((IEnumerable<ProductListViewModel>)result.Model).Count() == 1);
         }
 
         [TearDown]

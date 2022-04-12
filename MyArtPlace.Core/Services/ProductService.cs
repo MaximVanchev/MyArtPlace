@@ -116,11 +116,18 @@ namespace MyArtPlace.Core.Services
 
         public async Task<IEnumerable<ProductListViewModel>> GetUserProducts(string userId)
         {
+            var user = await repo.GetByIdAsync<MyArtPlaceUser>(userId);
+
+            if (user == null)
+            {
+                throw new Exception();
+            }
+
             var products = await repo.All<Product>()
                 .Include(p => p.Category)
                 .Include(p => p.Shop)
                 .ThenInclude(s => s.Currency)
-                .Where(p => p.Shop.User.Id == userId)
+                .Where(p => p.Shop.User == user)
                 .ToListAsync();
 
             return products.Select(p => new ProductListViewModel
