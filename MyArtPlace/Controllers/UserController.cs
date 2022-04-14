@@ -50,10 +50,6 @@ namespace MyArtPlace.Controllers
                 await userService.EditUser(model);
                 MessageViewModel.Message.Add(MessageConstants.SuccessMessage, MessageConstants.SuccessfulSavedChanges);
             }
-            catch (ArgumentException aex)
-            {
-                MessageViewModel.Message.Add(MessageConstants.ErrorMessage, aex.Message);
-            }
             catch (Exception)
             {
                 MessageViewModel.Message.Add(MessageConstants.ErrorMessage, MessageConstants.ThereWasErrorMessage);

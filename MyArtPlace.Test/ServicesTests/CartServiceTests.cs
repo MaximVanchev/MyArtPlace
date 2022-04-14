@@ -271,7 +271,7 @@ namespace MyArtPlace.Test.ServicesTests
         }
 
         [Test]
-        public void WhenGetTotalPriceShouldReturnTotalPrice()
+        public void WhenGetTotalPriceBGNShouldReturnTotalPrice()
         {
             var service = serviceProvider.GetService<ICartService>();
             string iso = "BGN";
@@ -279,24 +279,49 @@ namespace MyArtPlace.Test.ServicesTests
             var USDPrice = userTwo.Shop.Products.First().Price;
             var EURPrice = 0;
             decimal totalPrice = 0;
-            if (iso == ServiceConstants.BGN)
-            {
-                totalPrice += BGNPrice;
-                totalPrice += USDPrice / ServiceConstants.BGN_TO_USD;
-                totalPrice += EURPrice / ServiceConstants.BGN_TO_EUR;
-            }
-            else if (iso == ServiceConstants.USD)
-            {
-                totalPrice += USDPrice;
-                totalPrice += BGNPrice * ServiceConstants.BGN_TO_USD;
-                totalPrice += EURPrice * ServiceConstants.EUR_TO_USD;
-            }
-            else if (iso == ServiceConstants.EUR)
-            {
-                totalPrice += EURPrice;
-                totalPrice += USDPrice / ServiceConstants.EUR_TO_USD;
-                totalPrice += BGNPrice * ServiceConstants.BGN_TO_EUR;
-            }
+            totalPrice += BGNPrice;
+            totalPrice += USDPrice / ServiceConstants.BGN_TO_USD;
+            totalPrice += EURPrice / ServiceConstants.BGN_TO_EUR;          
+
+            totalPrice = Math.Round(totalPrice, 2);
+
+            var result = service.GetTotalPrice(BGNPrice, USDPrice, EURPrice, iso).Result;
+
+            Assert.AreEqual(totalPrice, result);
+        }
+
+        [Test]
+        public void WhenGetTotalPriceUSDShouldReturnTotalPrice()
+        {
+            var service = serviceProvider.GetService<ICartService>();
+            string iso = "USD";
+            var BGNPrice = userOne.Shop.Products.First().Price;
+            var USDPrice = userTwo.Shop.Products.First().Price;
+            var EURPrice = 0;
+            decimal totalPrice = 0;
+            totalPrice += USDPrice;
+            totalPrice += BGNPrice * ServiceConstants.BGN_TO_USD;
+            totalPrice += EURPrice * ServiceConstants.EUR_TO_USD;
+
+            totalPrice = Math.Round(totalPrice, 2);
+
+            var result = service.GetTotalPrice(BGNPrice, USDPrice, EURPrice, iso).Result;
+
+            Assert.AreEqual(totalPrice, result);
+        }
+
+        [Test]
+        public void WhenGetTotalPriceEURShouldReturnTotalPrice()
+        {
+            var service = serviceProvider.GetService<ICartService>();
+            string iso = "EUR";
+            var BGNPrice = userOne.Shop.Products.First().Price;
+            var USDPrice = userTwo.Shop.Products.First().Price;
+            var EURPrice = 0;
+            decimal totalPrice = 0;
+            totalPrice += EURPrice;
+            totalPrice += USDPrice / ServiceConstants.EUR_TO_USD;
+            totalPrice += BGNPrice * ServiceConstants.BGN_TO_EUR;
 
             totalPrice = Math.Round(totalPrice, 2);
 

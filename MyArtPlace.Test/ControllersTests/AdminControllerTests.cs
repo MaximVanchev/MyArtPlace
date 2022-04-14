@@ -125,6 +125,13 @@ namespace MyArtPlace.Test.ControllersTests
             model.Should().BeEquivalentTo(result.Model);
         }
 
+        [Test]
+        public void WhenGetCreateRoleShouldReturnView()
+        {
+            var result = adminController.CreateRole().Result as ViewResult;
+            Assert.NotNull(result);
+        }
+
         [TearDown]
         public void TearDown()
         {

@@ -309,6 +309,14 @@ namespace MyArtPlace.Test.ControllersTests
             Assert.True(((IEnumerable<ProductListViewModel>)result.Model).Count() == 1);
         }
 
+        [Test]
+        public void WhenGetFavoritesProductsAndThereIsErrorShouldRedirectToIndexAndAddMessage()
+        {
+            var result = productControllerUserOne.FavoritesProducts().Result as RedirectResult;
+            Assert.AreEqual(result.Url, "/");
+            Assert.AreEqual(MessageViewModel.Message[MessageConstants.ErrorMessage], MessageConstants.ThereWasErrorMessage);
+        }
+
         [TearDown]
         public void TearDown()
         {

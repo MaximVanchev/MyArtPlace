@@ -222,6 +222,11 @@ namespace MyArtPlace.Core.Services
         {
             var user = await repo.GetByIdAsync<MyArtPlaceUser>(userId);
 
+            if (user == null)
+            {
+                throw new Exception();
+            }
+
             var products = await repo.All<Product>()
                 .Include(p => p.Category)
                 .Include(p => p.UsersLiked)

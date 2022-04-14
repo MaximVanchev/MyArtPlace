@@ -29,5 +29,10 @@ namespace MyArtPlace.Test
         {
             return Task.FromResult(IdentityResult.Success);
         }
+
+        public override Task<IdentityResult> RefreshSignInAsync(TUser user)
+        {
+            return Task.FromResult(IdentityResult.Success);
+        }
     }
 }

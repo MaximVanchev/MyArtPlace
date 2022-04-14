@@ -89,10 +89,6 @@ namespace MyArtPlace.Controllers
                 await cartService.SubmitOrder(model, User.FindFirstValue(ClaimTypes.NameIdentifier));
                 MessageViewModel.Message.Add(MessageConstants.SuccessMessage, MessageConstants.SuccessfulSubmittedOrderMessage);
             }
-            catch (ArgumentException aex)
-            {
-                MessageViewModel.Message.Add(MessageConstants.ErrorMessage, aex.Message);
-            }
             catch (Exception)
             {
                 MessageViewModel.Message.Add(MessageConstants.ErrorMessage, MessageConstants.ThereWasErrorMessage);

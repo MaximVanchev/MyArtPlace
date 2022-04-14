@@ -104,12 +104,19 @@ namespace MyArtPlace.Test.ControllersTests
         }
 
         [Test]
-        public void WhenGetCartSubmitAndThereIsErrorShouldRedirectToIndex()
+        public void WhenGetCartSubmitAndThereIsArgumentExShouldRedirectToIndexAndAddMessage()
         {
             string iso = "BGN";
 
-            var result = cartControllerUserOne.CartSubmit(iso).Result as RedirectResult;
+            var cart = userTwo.CartProducts.First();
+
+            cartControllerUserTwo.RemoveProductFromCart(cart.OrderId);
+
+            cartControllerUserTwo.CheckMessages();
+
+            var result = cartControllerUserTwo.CartSubmit(iso).Result as RedirectResult;
             Assert.AreEqual(result.Url, "/");
+            Assert.AreEqual(MessageViewModel.Message[MessageConstants.ErrorMessage], MessageConstants.NoProductsInTheCartSubmitErrorMessage);
         }
 
         [Test]
@@ -128,21 +135,7 @@ namespace MyArtPlace.Test.ControllersTests
         }
 
         [Test]
-        public void WhenPostCartSubmitAndThereIsErrorShouldRedirectToIndexr()
-        {
-            var model = new CartAddressSubmitViewModel()
-            {
-                Currency = "BGN",
-                OrederAddress = "Bulgaria",
-                TotalPrice = 100
-            };
-
-            var result = cartControllerUserOne.CartSubmit(model).Result as RedirectResult;
-            Assert.AreEqual(result.Url, "/");
-        }
-
-        [Test]
-        public void WhenPostCubmitCartWithNotValidStateShouldReturnView()
+        public void WhenPostCartSubmitWithNotValidStateShouldReturnView()
         {
             var model = new CartAddressSubmitViewModel()
             {
@@ -187,16 +180,6 @@ namespace MyArtPlace.Test.ControllersTests
         }
 
         [Test]
-        public void WhenPostAddProductToCartAndThereIsErrorShouldAddErrorMessage()
-        {
-            var product = userOne.Shop.Products.Last();
-
-            var result = cartControllerUserOne.AddProductToCart(product.Id).Result as RedirectResult;
-            Assert.True(MessageViewModel.Message[MessageConstants.ErrorMessage] != null);
-            Assert.AreEqual(result.Url, "/");
-        }
-
-        [Test]
         public void WhenPostAddProductToCartAndThereIsArgumentExShouldAddArgumentExMessage()
         {
             var product = userTwo.Shop.Products.First();
@@ -224,6 +207,36 @@ namespace MyArtPlace.Test.ControllersTests
             var result = cartControllerUserOne.RemoveProductFromCart(product.Id).Result as RedirectToActionResult;
             Assert.True(MessageViewModel.Message[MessageConstants.ErrorMessage] != null);
             Assert.AreEqual(result.ActionName, nameof(cartControllerUserOne.UserCart));
+        }
+
+        [Test]
+        public void WhenGetCartSubmitAndThereIsErrorShouldRedirectToIndexAndAddMessage()
+        {
+            string iso = "BGN";
+
+            var result = cartControllerUserOne.CartSubmit(iso).Result as RedirectResult;
+            Assert.AreEqual(result.Url, "/");
+            Assert.AreEqual(MessageViewModel.Message[MessageConstants.ErrorMessage], MessageConstants.ThereWasErrorMessage);
+        }
+
+        [Test]
+        public void WhenPostCartSubmitAndThereIsErrorShouldRedirectToIndexAndAddMessage()
+        {
+            var model = new CartAddressSubmitViewModel();
+
+            var result = cartControllerUserOne.CartSubmit(model).Result as RedirectResult;
+            Assert.AreEqual(result.Url, "/");
+            Assert.AreEqual(MessageViewModel.Message[MessageConstants.ErrorMessage], MessageConstants.ThereWasErrorMessage);
+        }
+
+        [Test]
+        public void WhenPostAddProductToCartAndThereIsErrorShouldRedirectToIndexAndAddMessage()
+        {
+            var product = userOne.Shop.Products.First();
+
+            var result = cartControllerUserOne.AddProductToCart(product.Id).Result as RedirectResult;
+            Assert.AreEqual(result.Url, "/");
+            Assert.AreEqual(MessageViewModel.Message[MessageConstants.ErrorMessage], MessageConstants.ThereWasErrorMessage);
         }
 
         [TearDown]
@@ -313,18 +326,29 @@ namespace MyArtPlace.Test.ControllersTests
 
             var cartService = serviceProvider.GetService<ICartService>();
 
-            var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
+            var userClaims = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
             {
                 new Claim(ClaimTypes.Name, userTwo.UserName),
                 new Claim(ClaimTypes.NameIdentifier, userTwo.Id)
             }));
 
+            var userErrorClaims = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
+            {
+                new Claim(ClaimTypes.Name, userTwo.UserName),
+                new Claim(ClaimTypes.NameIdentifier, Guid.NewGuid().ToString())
+            }));
+
             cartControllerUserOne = new CartController(cartService);
             cartControllerUserTwo = new CartController(cartService);
 
+            cartControllerUserOne.ControllerContext = new ControllerContext()
+            {
+                HttpContext = new DefaultHttpContext() { User = userErrorClaims }
+            };
+
             cartControllerUserTwo.ControllerContext = new ControllerContext()
             {
-                HttpContext = new DefaultHttpContext() { User = user }
+                HttpContext = new DefaultHttpContext() { User = userClaims }
             };
 
             await repo.AddAsync(userOne);
