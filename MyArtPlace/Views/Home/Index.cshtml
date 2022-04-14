@@ -2,7 +2,7 @@
 @model IEnumerable<ProductListViewModel>
 
 @{
-    ViewData["Title"] = "Products";
+    ViewData["Title"] = "All Products";
 }
 
 <!DOCTYPE html>
@@ -28,7 +28,7 @@
     <div class="row">
         <div class="col-12">
             <div class="card-body" id="products">
-                @*<div class="card-title" id="title" style="font: #ffffff;position:center;">@ViewData["Title"]</div>*@
+                <div class="card-title" id="title" style="color:white;margin-left:440px;font-size:200%;">@ViewData["Title"]</div>
                 <div class="table-responsive">
                     @foreach (var product in Model)
                     {

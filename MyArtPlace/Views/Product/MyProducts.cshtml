@@ -1,4 +1,5 @@
-﻿@using MyArtPlace.Core.Models.Product
+﻿@using MyArtPlace.Core.Constants
+@using MyArtPlace.Core.Models.Product
 @model IEnumerable<ProductListViewModel>
 
 @{
@@ -14,7 +15,6 @@
     <title>@ViewData["Title"]</title>
     <!-- plugins:css -->
     <link rel="stylesheet" href="~/css/my_css/product_list.css">
-    <link rel="stylesheet" href="~/corona_bootstrap/vendors/jvectormap/jquery-jvectormap.css">
     <!-- endinject -->
     <!-- Plugin css for this page -->
     <!-- End plugin css for this page -->
@@ -29,47 +29,55 @@
         <div class="col-12">
             <div class="card-body" id="products">
                 <h4 class="card-title" id="title">@ViewData["Title"]</h4>
-                <div class="table-responsive">
-                    @foreach (var product in Model)
-                    {
-                        var base64 = Convert.ToBase64String(product.ImageByteArray);
-                        var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
-                        <div>
+                @if (Model.Count() == 0)
+                {
+                    <div id="no_products_message" style="color:white;font-size:400%;margin:auto;text-align:center;">
+                        @MessageConstants.NoProductsInMyProductsViewMessage
+                    </div>
+                }
+                else
+                {
+                    <div class="table-responsive">
+                        @foreach (var product in Model)
+                        {
+                            var base64 = Convert.ToBase64String(product.ImageByteArray);
+                            var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
                             <div>
-                                <div id="product">
-                                    <div id="product-bg">
-                                        <div id="product-parts">
-                                            <img id="image" src="@imgSrc">
-                                            <div>
-                                                <div id="product-small-line">
-                                                    <div id="category">@product.Category</div>
-                                                    <div id="likes">@product.Likes</div>
-                                                </div>
-                                                <img id="hart" src="~/corona_bootstrap/images/hart.png" />
-                                                <div id="product-title">
-                                                    <div id="name">@product.Name</div>
-                                                    <div id="price">@product.Price @product.Iso</div>
-                                                </div>
-                                                <div id="actions" style="margin-top:0px;">
-                                                    <a class="btn btn-warning" id="edit" style="min-width: 145px;" asp-action="EditProduct" asp-controller="Product"
-                                                    asp-route-productId="@product.Id">Edit</a>
-                                                    <a class="btn btn-danger" id="delete" style="min-width: 145px; margin-left:5px;" asp-action="DeleteProductQuestion" asp-route-productId="@product.Id"
-                                                    asp-controller="Product">Delete</a>
+                                <div>
+                                    <div id="product">
+                                        <div id="product-bg">
+                                            <div id="product-parts">
+                                                <img id="image" src="@imgSrc">
+                                                <div>
+                                                    <div id="product-small-line">
+                                                        <div id="category">@product.Category</div>
+                                                        <div id="likes" style=" margin-right: 32px;margin-top: 5px;float: right;font-size: 130%">@product.Likes</div>
+                                                    </div>
+                                                    <img id="hart" style="height: 30px;width: 30px; position: absolute; margin-left: 270px; margin-top: -33px;" src="~/corona_bootstrap/images/hart.png" />
+                                                    <div id="product-title">
+                                                        <div id="name">@product.Name</div>
+                                                        <div id="price">@product.Price @product.Iso</div>
+                                                    </div>
+                                                    <div id="actions" style="margin-top:0px;">
+                                                        <a class="btn btn-warning" id="edit" style="min-width: 145px;" asp-action="EditProduct" asp-controller="Product"
+                                                   asp-route-productId="@product.Id">Edit</a>
+                                                        <a class="btn btn-danger" id="delete" style="min-width: 145px; margin-left:5px;" asp-action="DeleteProductQuestion" asp-route-productId="@product.Id"
+                                                   asp-controller="Product">Delete</a>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    }
-                </div>
+                        }
+                    </div>
+                }
             </div>
         </div>
     </div>
     <!-- endinject -->
     <!-- Plugin js for this page -->
-    <script src="~/corona_bootstrap/plugins/jquery/jquery.min.js"></script>
     <!-- End plugin js for this page -->
     <!-- inject:js -->
     <partial name="_ValidationScriptsPartial" />

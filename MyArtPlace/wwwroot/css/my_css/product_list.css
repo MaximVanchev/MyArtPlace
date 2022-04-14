@@ -1,86 +1,83 @@
-﻿#products 
-{
+﻿#products {
     width: 60%;
     margin: auto;
     height: 100%;
 }
 
-#image 
-{
+#image {
     height: 300px;
     width: 300px;
     border-radius: 3%;
 }
 
-#product-bg 
-{
+#product-bg {
     background-color: azure;
-    border-radius:5%;
-    height: 450px;
+    border-radius: 5%;
+    height: 489px;
     width: 340px;
 }
 
-#name 
-{
+#name {
     white-space: nowrap;
     font-size: 200%;
     width: 150px;
     margin-right: 0;
     position: relative;
-    float:left;
+    float: left;
 }
 
-#price 
-{
+#price {
     white-space: nowrap;
     font-size: 150%;
     position: relative;
-    float:right;
-    margin-top:7px;
-    height:41px;
+    float: right;
+    margin-top: 7px;
+    height: 41px;
 }
 
-#product-title 
-{
+#product-title {
 }
 
-#product-parts
-{
+#product-parts {
     padding: 20px;
-    height:450px;
+    height: 450px;
 }
 
-.content-wrapper
-{
-    padding:0;
+.content-wrapper {
+    padding: 0;
 }
 
-#title
-{
-    margin:auto;
+#title {
+    margin: auto;
+    font: #ffffff;
+    position: center;
 }
 
-.card-body
-{
-    height:100%;
+.card-body {
+    height: 100%;
 }
 
-body
-{
-    color:black;
+body {
+    color: black;
 }
 
-#actions
-{
+#actions {
 }
 
-#edit 
-{
+#details {
     white-space: nowrap;
     float: left;
     position: relative;
     margin-right: 0;
-    min-width:145px;
+    min-width: 145px;
+}
+
+#edit {
+    white-space: nowrap;
+    float: left;
+    position: relative;
+    margin-right: 0;
+    min-width: 145px;
 }
 
 #delete {
@@ -88,41 +85,42 @@ body
     position: relative;
     width: 145px;
     min-width: 145px;
-    float:right;
+    float: right;
 }
 
-#product
-{
-    float:left;
-    position:relative;
-    margin-right:20px;
-    margin-bottom:20px;
+#product {
+    float: left;
+    position: relative;
+    margin-right: 20px;
+    margin-bottom: 20px;
 }
 
-#product-small-line
-{
-    position:initial;
-    height:37px;
+#product-small-line {
+    position: initial;
+    height: 37px;
 }
 
 #hart {
     height: 30px;
     width: 30px;
     position: absolute;
-    margin-left:250px;
-    margin-top:-30px;
+    margin-left: 270px;
+    margin-top: -33px;
 }
 
-#likes
-{
+#likes {
+    margin-right: 32px;
     margin-top: 5px;
     float: right;
     font-size: 130%
 }
 
-#category 
-{
-    margin-top:5px;
-    position:relative;
+#category {
+    margin-top: 5px;
+    position: relative;
     float: left;
+}
+
+#addcart {
+    margin-top: 10px;
 }

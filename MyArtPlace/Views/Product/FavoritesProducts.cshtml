@@ -1,4 +1,5 @@
-﻿@using MyArtPlace.Core.Models.Product
+﻿@using MyArtPlace.Core.Constants
+@using MyArtPlace.Core.Models.Product
 @model IEnumerable<ProductListViewModel>
 
 @{
@@ -29,51 +30,62 @@
         <div class="col-12">
             <div class="card-body" id="products">
                 @*<h4 class="card-title" id="title">@ViewData["Title"]</h4>*@
-                <div class="table-responsive">
-                    @foreach (var product in Model)
-                    {
-                        var base64 = Convert.ToBase64String(product.ImageByteArray);
-                        var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
-                        <div>
+                @if (Model.Count() == 0)
+                {
+                    <div id="no_products_message" style="color:white;font-size:400%;margin:auto;text-align:center;">
+                        @MessageConstants.NoFavoriteProductsViewMessage
+                    </div>
+                }
+                else
+                {
+                    <div class="table-responsive">
+                        @foreach (var product in Model)
+                        {
+                            var base64 = Convert.ToBase64String(product.ImageByteArray);
+                            var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
                             <div>
-                                <div id="product">
-                                    <div id="product-bg">
-                                        <div id="product-parts">
-                                            <img id="image" src="@imgSrc">
-                                            <div>
-                                                <div id="product-small-line">
-                                                    <div id="category">@product.Category</div>
-                                                    <div id="likes">@product.Likes</div>
-                                                </div>
-                                                <img id="hart" src="~/corona_bootstrap/images/hart.png" />
-                                                <div id="product-title">
-                                                    <div id="name">@product.Name</div>
-                                                    <div id="price">@product.Price @product.Iso</div>
-                                                </div>
-                                                <div id="actions" style="margin-top:0px;">
-                                                    <a class="btn btn-info" id="details" style="min-width: 145px;" asp-action="ProductDetails" asp-controller="Product"
-                                                    asp-route-productId="@product.Id">Details</a>
-                                                    @using (Html.BeginForm("DislikeProduct", "Product", FormMethod.Post))
-                                                    {
-                                                        <button type="submit" class="btn btn-danger" id="dislike" style="min-width: 145px; margin-left:5px;" asp-action="DislikeProduct"
-                                                        asp-route-productId="@product.Id" asp-controller="Product">Dislike</button>
-                                                    }
-                                                    @using (Html.BeginForm("AddProductToCart", "Cart", FormMethod.Post))
-                                                    {
-                                                        <button type="submit" class="btn btn-warning" id="addcart" style="min-width: 145px; margin-left:77.5px;" asp-action="AddProductToCart"
+                                <div>
+                                    <div id="product">
+                                        <div id="product-bg">
+                                            <div id="product-parts">
+                                                <img id="image" src="@imgSrc">
+                                                <div>
+                                                    <div id="product-small-line">
+                                                        <div id="category">@product.Category</div>
+                                                        <div id="likes">@product.Likes</div>
+                                                    </div>
+                                                    <img id="hart" src="~/corona_bootstrap/images/hart.png" />
+                                                    <div id="product-title">
+                                                        <div id="name">@product.Name</div>
+                                                        <div id="price">@product.Price @product.Iso</div>
+                                                    </div>
+                                                    <div id="actions" style="margin-top:0px;">
+                                                        <a class="btn btn-info" id="details" style="min-width: 145px;" asp-action="ProductDetails" asp-controller="Product"
+                                                   asp-route-productId="@product.Id">Details</a>
+                                                        @using (Html.BeginForm("DislikeProduct", "Product", FormMethod.Post))
+                                                        {
+                                                            <button type="submit" class="btn btn-danger" id="dislike" style="min-width: 145px; margin-left:5px;" asp-action="DislikeProduct"
+                                                        asp-route-productId="@product.Id" asp-controller="Product">
+                                                                Dislike
+                                                            </button>
+                                                        }
+                                                        @using (Html.BeginForm("AddProductToCart", "Cart", FormMethod.Post))
+                                                        {
+                                                            <button type="submit" class="btn btn-warning" id="addcart" style="min-width: 145px; margin-left:77.5px;" asp-action="AddProductToCart"
                                                         asp-route-productId="@product.Id" asp-controller="Cart">
-                                                            Add to cart
-                                                        </button>
-                                                    }
+                                                                Add to cart
+                                                            </button>
+                                                        }
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    }
-                </div>
+                        }
+                    </div>
+                }
             </div>
         </div>
     </div>

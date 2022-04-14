@@ -71,5 +71,11 @@ namespace MyArtPlace.Core.Constants
         public const string ImageIsNullErrorMessage = "You can't add product without image!";
 
         public const string TestIncorrectTypeReturned = "Didn't return correct type!";
+
+        public const string NoFavoriteProductsViewMessage = "There is no favorite products!";
+
+        public const string NoProductsInTheCartViewMessage = "There is no products in the Cart!";
+
+        public const string NoProductsInMyProductsViewMessage = "You don't have products!";
     }
 }

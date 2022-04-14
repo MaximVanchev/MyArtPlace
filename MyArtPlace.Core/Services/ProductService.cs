@@ -124,6 +124,7 @@ namespace MyArtPlace.Core.Services
             }
 
             var products = await repo.All<Product>()
+                .Include(p => p.UsersLiked)
                 .Include(p => p.Category)
                 .Include(p => p.Shop)
                 .ThenInclude(s => s.Currency)
