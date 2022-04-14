@@ -29,6 +29,11 @@ namespace MyArtPlace.Core.Services
         {
             var user = await repo.GetByIdAsync<MyArtPlaceUser>(userId);
 
+            if (user == null)
+            {
+                throw new Exception();
+            }
+
             var shop = new Shop()
             {
                 Name = model.Name,

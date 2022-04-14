@@ -118,6 +118,60 @@ namespace MyArtPlace.Test.ControllersTests
             reuslt.Model.Should().BeEquivalentTo(model);
         }
 
+        [Test]
+        public void WhenGetSettingsShouldReturnView()
+        {
+            var result = shopControllerUserTwo.Settings().Result as ViewResult;
+            Assert.NotNull(result);
+            result.Model.ShouldBe<ShopEditViewModel>(MessageConstants.TestIncorrectTypeReturned);
+        }
+
+        [Test]
+        public void WhenGetSettingsAndThereIsErrorShouldRedirectToIndexAndAddMessage()
+        {
+            var result = shopControllerUserOne.Settings().Result as RedirectResult;
+            Assert.AreEqual(result.Url , "/");
+            Assert.AreEqual(MessageViewModel.Message[MessageConstants.ErrorMessage], MessageConstants.ThereWasErrorMessage);
+        }
+
+        [Test]
+        public void WhenPostSettingsShouldRedirectToIndexAndEditShop()
+        {
+            var model = new ShopEditViewModel()
+            {
+                Currency = "USD",
+                Description = "dhja",
+                Name = "NewShop",
+                Location = "Bulgaria"
+            };
+
+            var result = shopControllerUserTwo.Settings(model).Result as RedirectResult;
+            Assert.AreEqual(result.Url, "/");
+            Assert.AreEqual(MessageViewModel.Message[MessageConstants.SuccessMessage], MessageConstants.SuccessfulSavedChanges);
+        }
+
+        [Test]
+        public void WhenPostSettingsAndThereIsErrorShouldRedirectToIndexAndAddMessage()
+        {
+            var model = new ShopEditViewModel();
+
+            var result = shopControllerUserOne.Settings(model).Result as RedirectResult;
+            Assert.AreEqual(result.Url, "/");
+            Assert.AreEqual(MessageViewModel.Message[MessageConstants.ErrorMessage], MessageConstants.ThereWasErrorMessage);
+        }
+
+        [Test]
+        public void WhenPostSettingsAndModelStateIsNotValidShouldReturnView()
+        {
+            var model = new ShopEditViewModel();
+
+            shopControllerUserOne.ModelState.AddModelError("error", "error message");
+
+            var result = shopControllerUserOne.Settings(model).Result as ViewResult;
+            Assert.NotNull(result);
+            Assert.AreEqual(model , result.Model);
+        }
+
         [TearDown]
         public void TearDown()
         {

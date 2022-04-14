@@ -24,5 +24,10 @@ namespace MyArtPlace.Test
                      new Mock<IAuthenticationSchemeProvider>().Object,
                      new Mock<IUserConfirmation<TUser>>().Object)
         { }
+
+        public override Task<IdentityResult> SignOutAsync()
+        {
+            return Task.FromResult(IdentityResult.Success);
+        }
     }
 }
