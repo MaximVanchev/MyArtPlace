@@ -40,7 +40,10 @@ namespace MyArtPlace.Core.Services
 
             await repo.AddAsync(shop);
 
-            await userManager.AddToRoleAsync(user, "Seller");
+            if (userManager != null)
+            {
+                await userManager.AddToRoleAsync(user, "Seller");
+            }
 
             await repo.SaveChangesAsync();
         }

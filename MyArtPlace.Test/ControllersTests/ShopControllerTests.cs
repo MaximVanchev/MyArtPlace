@@ -101,6 +101,23 @@ namespace MyArtPlace.Test.ControllersTests
             Assert.AreEqual(MessageViewModel.Message[MessageConstants.ErrorMessage], MessageConstants.ThereWasErrorMessage);
         }
 
+        [Test]
+        public void WhenPostCreateProductAndModelStateIsNotValidShouldReturnView()
+        {
+            var model = new ShopViewModel()
+            {
+                Currency = "USD",
+                Description = "dghahsd",
+                Name = "ShopUserTree"
+            };
+
+            shopControllerUserOne.ModelState.AddModelError("error", "error message");
+
+            var reuslt = shopControllerUserOne.CreateShop(model).Result as ViewResult;
+            Assert.NotNull(reuslt);
+            reuslt.Model.Should().BeEquivalentTo(model);
+        }
+
         [TearDown]
         public void TearDown()
         {
