@@ -18,11 +18,12 @@ builder.Services.AddDefaultIdentity<MyArtPlaceUser>(options =>
     .AddEntityFrameworkStores<MyArtPlaceContext>();
 
 builder.Services.AddAuthentication()
-    .AddFacebook(options =>
-    {
-        options.AppId = builder.Configuration.GetValue<string>("Facebook:AppId");
-        options.AppSecret = builder.Configuration.GetValue<string>("Facebook:AppSecret");
-    });
+    //.AddFacebook(options =>
+    //{
+    //    options.AppId = builder.Configuration.GetValue<string>("Facebook:AppId");
+    //    options.AppSecret = builder.Configuration.GetValue<string>("Facebook:AppSecret");
+    //})
+    ;
 
 builder.Services.AddControllersWithViews()
     .AddMvcOptions(options =>
