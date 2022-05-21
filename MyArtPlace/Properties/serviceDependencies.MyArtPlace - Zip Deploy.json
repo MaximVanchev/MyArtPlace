@@ -7,9 +7,9 @@
       "connectionId": "ConnectionStrings:MyArtPlaceContextConnection"
     },
     "mssql1": {
-      "secretStore": "AzureAppSettings",
-      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.Sql/servers/myartplacedbserver/databases/MyArtPlace_db",
-      "type": "mssql.azure",
+      "ignored": "true",
+      "suggestion": "true",
+      "type": "mssql",
       "connectionId": "ConnectionStrings:DefaultConnection"
     }
   }
